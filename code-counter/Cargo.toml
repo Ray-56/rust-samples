@@ -1,10 +1,10 @@
 [package]
-name = "bevy-snake"
+name = "code-counter"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = "0.6.0"
-rand = "0.7.3"
+walkdir = "2"
+glob = "0.3"
