@@ -74,7 +74,7 @@ fn main() -> Result<(), walkdir::Error> {
             return RecordByPath {
                 path: acc.path,
                 lines: acc.lines + cur.lines,
-                chars: acc.lines + cur.chars,
+                chars: acc.chars + cur.chars,
             };
         },
     );
