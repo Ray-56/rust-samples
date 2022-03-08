@@ -43,7 +43,7 @@ fn main() -> Result<(), walkdir::Error> {
         require_literal_separator: false,
         require_literal_leading_dot: false,
     };
-    let records = glob_with(&config.pattern, options)
+    let mut records = glob_with(&config.pattern, options)
         .expect("Failed to read glob pattern")
         .map(|path| path.unwrap())
         .filter(|path| path.is_file())
@@ -55,53 +55,13 @@ fn main() -> Result<(), walkdir::Error> {
                 lines,
                 chars: text.len() as u32,
             }
-        });
+        })
+        .collect::<Vec<RecordByPath>>();
 
-    // for record in records {
-    //     println!("{:?}", record);
-    // }
-    let record = records.fold(
-        RecordByPath {
-            path: String::from("ALL"),
-            lines: 0,
-            chars: 0,
-        },
-        |acc, cur| {
-            println!(
-                "The `{}` contains {} lines or {} characters",
-                cur.path, cur.lines, cur.chars
-            );
-            return RecordByPath {
-                path: acc.path,
-                lines: acc.lines + cur.lines,
-                chars: acc.chars + cur.chars,
-            };
-        },
-    );
-    println!(
-        "All contains {} lines or {} characters",
-        record.lines, record.chars
-    );
-    // for entry in glob_with(&config.pattern, options).expect("Failed to read glob pattern") {
-    //     match entry {
-    //         Ok(path) => {
-    //             if path.is_file() {
-    //                 let suffix = Path::new(path.as_os_str()).extension().unwrap();
-    //                 // println!("suffix is {:?}", suffix);
-    //                 let text = fs::read_to_string(path.display().to_string()).unwrap();
-    //                 let line_counter = text.lines().fold(0u32, |acc, _| acc + 1);
+    let total = summary(&records);
+    records.insert(0, total);
 
-    //                 println!(
-    //                     "The `{}` contains {} lines or {} characters",
-    //                     path.display(),
-    //                     line_counter,
-    //                     text.len()
-    //                 );
-    //             }
-    //         }
-    //         Err(e) => println!("error: {:?}", e),
-    //     }
-    // }
+    print_table(&records);
 
     Ok(())
 }
@@ -132,4 +92,31 @@ struct RecordByPath {
     path: String,
     lines: u32,
     chars: u32,
+}
+
+fn summary<'a>(records: &'a Vec<RecordByPath>) -> RecordByPath {
+    let mut total = RecordByPath {
+        path: "Total".to_string(),
+        lines: 0,
+        chars: 0,
+    };
+    for record in records.into_iter() {
+        total.lines += record.lines;
+        total.chars += record.chars;
+    }
+
+    total
+}
+
+fn print_table<'a>(records: &'a Vec<RecordByPath>) {
+    println!(
+        "{0: >30} | {1: >10} | {2: >10}",
+        "Path", "Lines", "Chars"
+    );
+    records.iter().for_each(|record| {
+        println!(
+            "{0: >30} | {1: >10} | {2: >10}",
+            record.path, record.lines, record.chars
+        )
+    });
 }
