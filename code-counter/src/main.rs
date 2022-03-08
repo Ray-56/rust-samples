@@ -109,13 +109,12 @@ fn summary<'a>(records: &'a Vec<RecordByPath>) -> RecordByPath {
 }
 
 fn print_table<'a>(records: &'a Vec<RecordByPath>) {
-    println!(
-        "{0: >30} | {1: >10} | {2: >10}",
-        "Path", "Lines", "Chars"
-    );
+    let max = &records.iter().map(|r| r.path.len().clone()).max();
+    let max = max.unwrap() + 2;
+    println!("{0: >max$} | {1: >10} | {2: >10}", "Path", "Lines", "Chars");
     records.iter().for_each(|record| {
         println!(
-            "{0: >30} | {1: >10} | {2: >10}",
+            "{0: >max$} | {1: >10} | {2: >10}",
             record.path, record.lines, record.chars
         )
     });
