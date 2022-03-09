@@ -1,4 +1,5 @@
 use glob::{glob_with, MatchOptions};
+use regex::Regex;
 use std::{env, fs, process};
 use walkdir::DirEntry;
 
@@ -48,10 +49,11 @@ fn main() -> Result<(), walkdir::Error> {
         .map(|path| path.unwrap())
         .filter(|path| path.is_file())
         .map(|path| {
-            let text = fs::read_to_string(path.display().to_string()).unwrap();
+            let path_string = path.display().to_string();
+            let text = fs::read_to_string(&path_string).unwrap();
             let lines = text.lines().fold(0u32, |acc, _| acc + 1);
             RecordByPath {
-                path: path.display().to_string(),
+                path: path_string,
                 lines,
                 chars: text.len() as u32,
             }
@@ -59,6 +61,24 @@ fn main() -> Result<(), walkdir::Error> {
         .collect::<Vec<RecordByPath>>();
 
     let total = summary(&records);
+
+    if config.extension {
+        let mut exist_names: Vec<String> = Vec::new();
+        let extension_names = &records
+            .iter()
+            .map(|r| get_extension_name(r))
+            .filter(|name| {
+                if exist_names.contains(name) {
+                    return false;
+                }
+                exist_names.push(name.clone());
+                true
+            })
+            .collect::<Vec<String>>();
+        let extensions = extension_list(&records, extension_names);
+        records.splice(0..1, extensions);
+    }
+
     records.insert(0, total);
 
     print_table(&records);
@@ -81,7 +101,7 @@ impl Config {
             return Err("The current program supports only one parameter");
         }
         let pattern = args[1].clone();
-        let extension = args.contains(&String::from("-extension"));
+        let extension = args.contains(&String::from("--extension"));
 
         Ok(Config { pattern, extension })
     }
@@ -106,6 +126,43 @@ fn summary<'a>(records: &'a Vec<RecordByPath>) -> RecordByPath {
     }
 
     total
+}
+
+fn extension_list<'a>(records: &'a Vec<RecordByPath>, names: &'a Vec<String>) -> Vec<RecordByPath> {
+    let mut ret = names
+        .iter()
+        .map(|name| RecordByPath {
+            path: name.to_string(),
+            lines: 0,
+            chars: 0,
+        })
+        .collect::<Vec<RecordByPath>>();
+
+    records.iter().for_each(|record| {
+        let name = get_extension_name(record);
+        ret.iter_mut().for_each(|r| {
+            if r.path == name {
+                r.lines += record.lines;
+                r.chars += record.chars;
+            }
+        })
+    });
+
+    ret
+}
+
+fn get_extension_name(record: &RecordByPath) -> String {
+    let re = Regex::new(r"\w+\.(\w+)$").unwrap();
+    let caps = re.captures(&record.path.as_str());
+    let extension_name = match caps {
+        Some(list) => {
+            let mut v: Vec<char> = list[1].to_string().chars().collect();
+            v[0] = v[0].to_uppercase().nth(0).unwrap();
+            v.into_iter().collect()
+        }
+        _ => String::from("Not Found"),
+    };
+    extension_name
 }
 
 fn print_table<'a>(records: &'a Vec<RecordByPath>) {
