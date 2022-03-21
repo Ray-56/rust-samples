@@ -6,10 +6,10 @@ const SNAKE_HEAD_COLOR: Color = Color::rgb(0.7, 0.7, 0.7);
 const FOOD_COLOR: Color = Color::rgb(1.0, 0.0, 1.0);
 const SNAKE_SEGMENT_COLOR: Color = Color::rgb(0.3, 0.3, 0.3);
 
-const ARENA_HEIGHT: u32 = 10;
 const ARENA_WIDTH: u32 = 10;
+const ARENA_HEIGHT: u32 = 10;
 
-#[derive(SystemLabel, Clone, Hash, Debug, PartialEq, Eq)]
+#[derive(SystemLabel, Clone, Debug, Hash, PartialEq, Eq)]
 pub enum SnakeMovement {
     Input,
     Movement,
@@ -57,13 +57,14 @@ struct SnakeSegments(Vec<Entity>);
 #[derive(Component)]
 struct Food;
 
-#[derive(PartialEq, Copy, Clone)]
+#[derive(PartialEq, Clone, Copy)]
 enum Direction {
     Left,
     Up,
     Right,
     Down,
 }
+
 impl Direction {
     fn opposite(self) -> Self {
         match self {
@@ -148,10 +149,10 @@ fn snake_movement(
             || head_pos.x as u32 >= ARENA_WIDTH
             || head_pos.y as u32 >= ARENA_HEIGHT
         {
-            game_over_writer.send(GameOverEvent);
+            game_over_writer.send(GameOverEvent); // 边界
         }
         if segment_positions.contains(&head_pos) {
-            game_over_writer.send(GameOverEvent);
+            game_over_writer.send(GameOverEvent); // 蛇身体
         }
         segment_positions
             .iter()
@@ -291,7 +292,7 @@ fn main() {
         )
         .add_system_set(
             SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(0.150))
+                .with_run_criteria(FixedTimestep::step(0.250)) // 执行频率
                 .with_system(snake_movement.label(SnakeMovement::Movement))
                 .with_system(
                     snake_eating
@@ -307,7 +308,7 @@ fn main() {
         .add_system(game_over.after(SnakeMovement::Movement))
         .add_system_set(
             SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(1.0))
+                .with_run_criteria(FixedTimestep::step(1.0)) // 食物出现的频率
                 .with_system(food_spawner),
         )
         .add_system_set_to_stage(
