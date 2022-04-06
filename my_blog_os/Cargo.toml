@@ -11,4 +11,8 @@ panic = "abort" # 禁用 panic 时栈展开
 [profile.release]
 panic = "abort" # 禁用 panic 时栈展开
 
+[package.metadata.bootimage]
+build-command = ["xbuild"]
+
 [dependencies]
+bootloader = "0.9.3"
