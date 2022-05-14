@@ -41,6 +41,7 @@ struct LoginResponse {
 pub struct Claims {
     id: usize,
     name: String,
+    exp: usize,
 }
 
 #[tokio::main]
@@ -84,6 +85,7 @@ async fn login_handler(Json(login): Json<LoginRequest>) -> Json<LoginResponse> {
     let claims = Claims {
         id: 1,
         name: "Ray Fan".to_string(),
+        exp: get_epoch() + 14 * 24 * 60 * 60,
     };
 
     let key = jwt::EncodingKey::from_secret(SECRET);
@@ -126,4 +128,12 @@ impl IntoResponse for HttpError {
         };
         (code, msg).into_response()
     }
+}
+
+fn get_epoch() -> usize {
+    use std::time::SystemTime;
+    SystemTime::now()
+        .duration_since(SystemTime::UNIX_EPOCH)
+        .unwrap()
+        .as_secs() as usize
 }
