@@ -1,22 +1,32 @@
-use std::net::SocketAddr;
-use serde::{Serialize, Deserialize};
 use axum::{
-    http::StatusCode,
-    routing::{get, post},
-    extract::{FromRequest, RequestParts, TypedHeader},
-    response::{IntoResponse, Html},
-    headers::{Authorization, authorization::Bearer},
     async_trait,
-    Router, Server, Json,
+    body::{boxed, Full},
+    extract::{Extension, FromRequest, RequestParts, TypedHeader},
+    headers::{authorization::Bearer, Authorization},
+    http::{header, Response, StatusCode, Uri},
+    response::IntoResponse,
+    routing::{get, post},
+    AddExtensionLayer, Json, Router, Server,
 };
 use jsonwebtoken as jwt;
 use jsonwebtoken::Validation;
+use rust_embed::RustEmbed;
+use serde::{Deserialize, Serialize};
+use std::{
+    net::SocketAddr,
+    sync::{
+        atomic::{AtomicUsize, Ordering},
+        Arc, RwLock,
+    },
+};
 
 const SECRET: &[u8] = b"deadbeef";
+static NEXT_ID: AtomicUsize = AtomicUsize::new(1);
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Todo {
     pub id: usize,
+    pub user_id: usize,
     pub title: String,
     pub completed: bool,
 }
@@ -44,43 +54,116 @@ pub struct Claims {
     exp: usize,
 }
 
+#[derive(Debug, Default, Clone)]
+struct TodoStore {
+    items: Arc<RwLock<Vec<Todo>>>,
+}
+
+#[derive(RustEmbed)]
+#[folder = "static/"]
+struct Assets;
+
+struct StaticFile<T>(pub T);
+
+impl<T> IntoResponse for StaticFile<T>
+where
+    T: Into<String>,
+{
+    fn into_response(self) -> axum::response::Response {
+        let path = self.0.into();
+        match Assets::get(path.as_str()) {
+            Some(content) => {
+                let body = boxed(Full::from(content.data));
+                let mime = mime_guess::from_path(path.as_str()).first_or_octet_stream();
+                Response::builder()
+                    .header(header::CONTENT_TYPE, mime.as_ref())
+                    .body(body)
+                    .unwrap()
+            }
+            None => Response::builder()
+                .body(boxed(Full::from(format!("File not found: {}", path))))
+                .unwrap(),
+        }
+    }
+}
+
 #[tokio::main]
 async fn main() {
+    let store = TodoStore {
+        items: Arc::new(RwLock::new(vec![Todo {
+            id: 0,
+            user_id: 0,
+            title: "Learn Rust".to_string(),
+            completed: false,
+        }])),
+    };
     let app = Router::new()
         .route("/", get(index_handler))
-        .route("/todos", get(todos_handler).post(create_todo_handler))
-        .route("/login", post(login_handler));
+        .route(
+            "/todos",
+            get(todos_handler)
+                .post(create_todo_handler)
+                .layer(AddExtensionLayer::new(store)),
+        )
+        .route("/login", post(login_handler))
+        .fallback(get(static_handler));
     let addr = SocketAddr::from(([127, 0, 0, 1], 8080));
     println!("Listening on http://{}", addr);
 
-    Server::bind(&addr).serve(app.into_make_service()).await.unwrap();
+    Server::bind(&addr)
+        .serve(app.into_make_service())
+        .await
+        .unwrap();
 }
 
-async fn index_handler() -> Html<&'static str> {
-    Html("Hello, world!")
+async fn index_handler() -> impl IntoResponse {
+    StaticFile("index.html")
 }
 
-async fn todos_handler() -> Json<Vec<Todo>> {
-    Json(vec![
-        Todo {
-            id: 1,
-            title: "Todo 1".to_string(),
-            completed: false,
-        },
-        Todo {
-            id: 2,
-            title: "Todo 2".to_string(),
-            completed: true,
-        },
-    ])
+async fn static_handler(uri: Uri) -> impl IntoResponse {
+    let path = uri.path().trim_start_matches('/').to_string();
+    StaticFile(path)
 }
 
-async fn create_todo_handler(claims: Claims, Json(_todo): Json<CreateTodo>) -> StatusCode {
+async fn todos_handler(
+    claims: Claims,
+    Extension(store): Extension<TodoStore>,
+) -> Result<Json<Vec<Todo>>, HttpError> {
+    let user_id = claims.id;
+    match store.items.read() {
+        Ok(items) => Ok(Json(
+            items
+                .iter()
+                .filter(|todo| todo.user_id == user_id)
+                .map(|todo| todo.clone())
+                .collect(),
+        )),
+        Err(_) => Err(HttpError::Internal),
+    }
+}
+
+async fn create_todo_handler(
+    claims: Claims,
+    Json(todo): Json<CreateTodo>,
+    Extension(store): Extension<TodoStore>,
+) -> Result<StatusCode, HttpError> {
     println!("{:?}", claims);
-    StatusCode::CREATED
+    match store.items.write() {
+        Ok(mut guard) => {
+            let todo = Todo {
+                id: get_next_id(),
+                user_id: claims.id,
+                title: todo.title,
+                completed: false,
+            };
+            guard.push(todo);
+            Ok(StatusCode::CREATED)
+        }
+        Err(_) => Err(HttpError::Internal),
+    }
 }
 
-async fn login_handler(Json(login): Json<LoginRequest>) -> Json<LoginResponse> {
+async fn login_handler(Json(_login): Json<LoginRequest>) -> Json<LoginResponse> {
     // skip login info validation
     let claims = Claims {
         id: 1,
@@ -96,16 +179,16 @@ async fn login_handler(Json(login): Json<LoginRequest>) -> Json<LoginResponse> {
 #[async_trait]
 impl<B> FromRequest<B> for Claims
 where
-    B: Send, // required by `async_trait`
+    B: Send,
 {
     type Rejection = HttpError;
 
     async fn from_request(req: &mut RequestParts<B>) -> Result<Self, Self::Rejection> {
-        let TypedHeader(Authorization(bearer)) = 
+        let TypedHeader(Authorization(bearer)) =
             TypedHeader::<Authorization<Bearer>>::from_request(req)
                 .await
                 .map_err(|_| HttpError::Auth)?;
-        
+
         let key = jwt::DecodingKey::from_secret(SECRET);
         let token = jwt::decode::<Claims>(bearer.token(), &key, &Validation::default())
             .map_err(|_| HttpError::Auth)?;
@@ -136,4 +219,8 @@ fn get_epoch() -> usize {
         .duration_since(SystemTime::UNIX_EPOCH)
         .unwrap()
         .as_secs() as usize
+}
+
+fn get_next_id() -> usize {
+    NEXT_ID.fetch_add(1, Ordering::Relaxed)
 }

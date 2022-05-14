@@ -8,5 +8,7 @@ edition = "2021"
 [dependencies]
 axum = { version = "0.4", features = ["headers"] }
 jsonwebtoken = "8"
+mime_guess = "2"
+rust-embed = "6"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["full"]}
