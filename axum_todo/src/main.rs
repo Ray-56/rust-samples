@@ -3,6 +3,10 @@ use dotenv::dotenv;
 
 mod config;
 mod handler;
+mod error;
+
+/// 定义自己的 Result
+type Result<T> = std::result::Result<T, error::AppError>;
 
 #[tokio::main]
 async fn main() {
