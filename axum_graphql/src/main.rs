@@ -20,6 +20,10 @@ use axum::{
 };
 use starwars::{QueryRoot, StarWars, StarWarsSchema};
 
+async fn hellow_handler() -> Html<&'static str> {
+    Html("<h1>Hello, world!</h1><br /> <h2>This is Axum Graphql `/graphql`</h2>")
+}
+
 async fn graphql_handler(schema: Extension<StarWarsSchema>, req: Json<Request>) -> Json<Response> {
     schema.execute(req.0).await.into()
 }
@@ -35,10 +39,11 @@ async fn main() {
         .finish();
 
     let app = Router::new()
-        .route("/", get(graphql_playground).post(graphql_handler))
+        .route("/graphql", get(graphql_playground))
+        .route("/", get(hellow_handler).post(graphql_handler))
         .layer(Extension(schema));
 
-    println!("Playground: http://localhost:3000");
+    println!("Playground: http://localhost:3000/graphql");
 
     axum::Server::bind(&"0.0.0.0:3000".parse().unwrap())
         .serve(app.into_make_service())
