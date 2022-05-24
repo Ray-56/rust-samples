@@ -1,19 +1,20 @@
 use anyhow::Result;
 use crossterm::{
-    event::{DisableMouseCapture, EnableMouseCapture, KeyCode},
+    event::{DisableMouseCapture, EnableMouseCapture, KeyCode, KeyModifiers, Event, self},
     execute,
     terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
 };
 use std::{
+    fs::remove_dir_all,
     io,
     path::{Path, PathBuf},
     sync::mpsc::{Receiver, Sender},
-    time::{Duration, Instant},
+    time::{Duration, Instant}, thread,
 };
 use tui::{
     backend::{Backend, CrosstermBackend},
     layout::{Constraint, Direction, Layout, Rect},
-    style::{Color, Style, Modifier},
+    style::{Color, Modifier, Style},
     text::{Span, Spans},
     widgets::{Block, Borders, List, ListItem, ListState, Paragraph},
     Frame, Terminal,
@@ -69,9 +70,106 @@ fn run_ui<B: Backend>(
     let mut last_tick = Instant::now();
     loop {
         terminal.draw(|f| draw(f, &mut app))?;
-    }
 
-    todo!()
+        if let Ok(item) = rx.try_recv() {
+            match item {
+                Message::AddPath(item) => {
+                    app.total_size += item.size.unwrap_or_default();
+                    app.add_item(item);
+                }
+                Message::DoneSearch => {
+                    app.done_search = true;
+                }
+                Message::SetPathDeleted(path) => {
+                    let size = app.set_item_deleted(path);
+                    app.total_saved_size += size.unwrap_or_default();
+                }
+                Message::PutError(message) => {
+                    app.error = Some(message);
+                }
+            }
+        }
+
+        let timeout = tick_rate
+            .checked_sub(last_tick.elapsed())
+            .unwrap_or_else(|| Duration::from_secs(0));
+
+        if crossterm::event::poll(timeout)? {
+            if let Event::Key(key) = event::read()? {
+                app.clear_tmp_state();
+
+                match key.code {
+                    KeyCode::Char('q') => return Ok(()),
+                    KeyCode::Char('c') if key.modifiers == KeyModifiers::CONTROL => return Ok(()),
+                    KeyCode::Char('j') | KeyCode::Down => app.next(),
+                    KeyCode::Char('k') | KeyCode::Up => app.previous(),
+                    KeyCode::Char('?') => app.show_help = true,
+                    KeyCode::Home => app.begin(),
+                    KeyCode::Char('G') | KeyCode::End => app.end(),
+                    KeyCode::Char('g') => {
+                        if let Some(KeyCode::Char('g')) = app.last_keycode {
+                            app.begin();
+                        }
+                    }
+                    KeyCode::Char('p') => {
+                        if let Some(KeyCode::Char('o')) = app.last_keycode {
+                            app.order_by_path();
+                        }
+                    }
+                    KeyCode::Char('s') => {
+                        if let Some(KeyCode::Char('o')) = app.last_keycode {
+                            app.order_by_size();
+                        }
+                    }
+                    KeyCode::Char('a') => {
+                        if let Some(KeyCode::Char('d')) = app.last_keycode {
+                            for item in app.items.iter_mut() {
+                                if item.state == PathState::Normal && item.size.is_some() {
+                                    item.state = PathState::StartDeleting;
+                                    let item_path = item.path.clone();
+                                    let sender = tx.clone();
+                                    thread::spawn(move || match remove_dir_all(&item_path) {
+                                        Ok(_) => {
+                                            sender.send(Message::SetPathDeleted(item_path)).unwrap()
+                                        }
+                                        Err(err) => sender
+                                            .send(Message::PutError(format!(
+                                                "Cannot delete '{}', {}",
+                                                item_path.display(),
+                                                err
+                                            )))
+                                            .unwrap(),
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    KeyCode::Char(' ') => {
+                        if let Some(path) = app.start_deleting_item() {
+                            let sender = tx.clone();
+                            thread::spawn(move || match remove_dir_all(&path) {
+                                Ok(_) => sender.send(Message::SetPathDeleted(path)).unwrap(),
+                                Err(err) => sender
+                                    .send(Message::PutError(format!(
+                                        "Cannot delete '{}', {}",
+                                        path.display(),
+                                        err
+                                    )))
+                                    .unwrap(),
+                            });
+                        }
+                    }
+                    _ => {}
+                }
+                app.last_keycode = Some(key.code);
+            }
+        }
+
+        if last_tick.elapsed() >= tick_rate {
+            app.on_tick();
+            last_tick = Instant::now();
+        }
+    }
 }
 
 fn draw<B: Backend>(f: &mut Frame<B>, app: &mut App) {
@@ -113,7 +211,7 @@ fn draw_list_view<B: Backend>(f: &mut Frame<B>, app: &mut App, area: Rect) {
                 .selected()
                 .map(|selected| selected == index)
                 .unwrap_or_default();
-            
+
             let mut width = width;
             width -= (item.kind_text.len() + item.size_text.len() + PATH_SEPARATE.len()) as u16;
             let mut styles = vec![

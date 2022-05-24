@@ -1,4 +1,4 @@
-use anyhow::{anyhow, Error, Result, Ok};
+use anyhow::{anyhow, Error, Result};
 use regex::Regex;
 use std::{
     collections::{HashMap, HashSet},
@@ -21,8 +21,7 @@ impl Config {
                 .unwrap_or(true)
         })
     }
-
-    pub fn match_path<'a, 'b>(
+    pub fn match_patch<'a, 'b>(
         &'a self,
         matches: &mut HashMap<&'a str, (HashSet<&'b str>, HashSet<&'b str>)>,
         name: &'b str,
@@ -88,7 +87,6 @@ impl Config {
         Ok(())
     }
 }
-
 
 #[derive(Debug)]
 pub struct Rule {
@@ -160,5 +158,22 @@ fn to_regex(value: &str) -> Result<Regex> {
     Regex::new(&re).map_err(|_| anyhow!("Invalid regex value '{}'", value))
 }
 
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-// TODO: unit test
+    #[test]
+    fn test_rule() {
+        let rule: Rule = "target".parse().unwrap();
+        assert!(rule.test_purge("target"));
+        assert!(!rule.test_purge("-target"));
+        assert!(!rule.test_purge("target-"));
+        assert!(!rule.test_purge("Target"));
+
+        let rule: Rule = "^(Debug|Release)$;\\.sln$".parse().unwrap();
+        assert!(rule.test_purge("Debug"));
+        assert!(!rule.test_purge("Debug-"));
+        assert!(!rule.test_purge("-Debug"));
+        assert!(rule.test_check("App.sln"));
+    }
+}
