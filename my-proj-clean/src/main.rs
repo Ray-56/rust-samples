@@ -9,7 +9,7 @@ use std::{
 
 use anyhow::{anyhow, Context, Result};
 use clap::{Arg, Command};
-use my_proj_clean::{Config, search};
+use my_proj_clean::{Config, search, ls, run};
 
 fn main() {
     if let Err(err) = start() {
@@ -36,13 +36,12 @@ fn start() -> Result<()> {
     let tx2 = tx.clone();
     let handle = thread::spawn(move || search(entry, config, tx2));
 
-    // if matches.is_present("list_targets") {
-    //     ls(rx)?;
-    // } else {
-    //     run(rx, tx)?;
-    // }
-    // handle.join().unwrap()?;
-
+    if matches.is_present("list_targets") {
+        ls(rx)?;
+    } else {
+        run(rx, tx)?;
+    }
+    handle.join().unwrap()?;
     Ok(())
 }
 
