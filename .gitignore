@@ -8,6 +8,8 @@ Cargo.lock
 /.vscode
 /benches/target
 
+dist
+
 # 子项目
 /*/target
 
