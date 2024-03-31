@@ -17,6 +17,12 @@ pub fn command() -> clap::Command {
                 .long("sheet")
                 .default_value("Sheet1"),
         )
+        .arg(
+            arg!(ext: -e <EXTENTION_NAME> "Generated files extentions, default is ts")
+                .long("ext")
+                .value_parser(["ts", "json"])
+                .default_value("ts"),
+        )
 }
 
 #[test]

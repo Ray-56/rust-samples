@@ -1,19 +1,20 @@
 # gen_locale
 
-从 Excel 文件中生成多语言`.ts`文件
+> Generate locale `ts|json` files from Excel file
 
 ## TODO
 
-- [] 内容换行符问题，目前使用字符串模板
-- [x] excel文件 sheet name，考虑加入参数指定解析 sheet name; 已加入参数 -s --sheet
-- [x] sheet name 不存在时，提示错误
-- [] 相同id提示、错误提示等
+- [x] Content newline issue, currently using string template
+- [x] Generate locale files with different extension types, e.g., ts, json
+- [x] Consider adding a parameter to specify the sheet name to be parsed in the Excel file; parameter -s --sheet is now added
+- [x] Print error when sheet name not found in Excel file
+- [x] Warnings for duplicate ids, errors, etc.
 
 ## How to use
 
 ```bash
-$ cargo run -- -i file.excel
-$ cargo run -- -i file.excel -d dist
+$ cargo run -- -i file.xlsx
+$ cargo run -- -i file.xlsx -d dist
 ```
 
 ```bash
@@ -45,7 +46,7 @@ export default {
 
 ## See Also
 
-`./gen_locale`无法执行，可能是改二进制文件未有执行权限
+`./gen_locale` is not executable, maybe the binary file does not have execution permission
 ```
-chmod 777 ./gen_locale  # 修改权限
+chmod +x ./gen_locale  # make the binary executable
 ```

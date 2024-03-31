@@ -8,7 +8,7 @@ pub struct LocaleIndexConf {
 }
 
 /// 行配置
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct LocaleRowConf {
     /// 语言
     pub lang: String,

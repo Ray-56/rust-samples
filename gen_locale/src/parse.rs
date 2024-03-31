@@ -31,6 +31,12 @@ pub fn parse_first_row(row: &[DataType]) -> Vec<LocaleIndexConf> {
     return rst;
 }
 
+/// 解析行，返回不同语言的配置(`LocaleRowConf`)
+/// 
+/// example:
+/// ```bash
+/// row_parsed=[LocaleRowConf { lang: "zh-CN", key: "contactManagement.newContact.maxNumber.hint", value: "最多可上传10000名联系人。" }, LocaleRowConf { lang: "en-US", key: "contactManagement.newContact.maxNumber.hint", value: "The maximum number of contacts that can be uploaded is 10,000." }, LocaleRowConf { lang: "es-ES", key: "contactManagement.newContact.maxNumber.hint", value: "El número máximo de contactos que se pueden cargar es de 10.000." }, LocaleRowConf { lang: "id-ID", key: "contactManagement.newContact.maxNumber.hint", value: "Jumlah maksimum kontak yang dapat diunggah adalah 10.000." }, LocaleRowConf { lang: "pt-BR", key: "contactManagement.newContact.maxNumber.hint", value: "O número máximo de contactos que podem ser carregados é de 10.000." }]
+/// ```
 pub fn parse_row(
     row: &[DataType],
     index_conf: &Vec<LocaleIndexConf>,
@@ -60,10 +66,19 @@ pub fn parse_row(
                     if key_string.is_empty() {
                         continue;
                     }
+                    let mut value = cell.to_string();
+                    
+                    if value.contains("\n") {
+                        value = value.replace("\n", "\\n");
+                    }
+                    if value.contains("\"") {
+                        value = value.replace("\"", "\\\"");
+                    }
+
                     let item = LocaleRowConf {
                         lang: lang.clone(),
                         key: key_string.to_string(),
-                        value: cell.clone().to_string(),
+                        value,
                     };
                     locales.push(item);
                 }
