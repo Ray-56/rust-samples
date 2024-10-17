@@ -1,0 +1,15 @@
+{
+  "name": "napi-3-darwin-universal",
+  "version": "0.0.0",
+  "os": [
+    "darwin"
+  ],
+  "main": "napi-3.darwin-universal.node",
+  "files": [
+    "napi-3.darwin-universal.node"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 10"
+  }
+}

@@ -1,4 +1,5 @@
 fn main() {
-    // DON'T EDIT THIS SOLUTION FILE!
-    // It will be automatically filled after you finish the exercise.
+    // Congratulations, you finished the first exercise 🎉
+    // As an introduction to Rustlings, the first exercise only required
+    // entering `n` in the terminal to go to the next exercise.
 }

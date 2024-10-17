@@ -19,12 +19,15 @@ fn main() {
         });
         handles.push(handle);
     }
+    println!("{:?}", handles);
 
     let mut results = Vec::new();
     for handle in handles {
         // TODO: Collect the results of all threads into the `results` vector.
         // Use the `JoinHandle` struct which is returned by `thread::spawn`.
+        results.push(handle.join().expect("Thread panicked"));
     }
+    println!("{:?}", results);
 
     if results.len() != 10 {
         panic!("Oh no! Some thread isn't done yet!");
