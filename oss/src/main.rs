@@ -1,6 +1,7 @@
 use clap::Parser;
 use futures::future::join_all;
 use glob::{glob_with, MatchOptions};
+use sdk::oss::OSSInfo;
 use std::path::Path;
 use std::path::PathBuf;
 use std::time::Instant;
@@ -156,7 +157,7 @@ async fn main() -> Result<(), OssError> {
     }
 
     if uploaded_len == total_len {
-        println!("all files uploaded");
+        println!("all files uploaded to {}/{}", oss.bucket(), cli.dest_dir);
     } else {
         println!(
             "something wrong. already uploaded files: {}/{}",

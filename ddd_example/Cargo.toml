@@ -1,0 +1,10 @@
+[package]
+name = "ddd_example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+readonly = "0"
+mockall = "0"
+fake = {version="2", features=['derive']}
+rand = "0"
