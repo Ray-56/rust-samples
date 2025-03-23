@@ -1,0 +1,18 @@
+appenders:
+  file:
+    kind: file
+    path: "logs/app.log"
+    encoder:
+      pattern: "{d} - {l} - {m}{n}"
+
+root:
+  level: info
+  appenders:
+    - file
+
+loggers:
+  actix_web::middleware::logger:
+    level: info
+    appenders:
+      - file
+    additive: false

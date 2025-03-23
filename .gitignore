@@ -7,8 +7,14 @@ Cargo.lock
 /.idea
 /.vscode
 /benches/target
+.sqlx
+logs
+*.pem
+*.xlsx
+.env
 
 dist
+node_modules
 
 # 子项目
 /*/target
