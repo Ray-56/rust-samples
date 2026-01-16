@@ -1,0 +1,59 @@
+{
+  "folders": [
+    { "name": "rust-samples (root)", "path": "." },
+    { "name": "actix_todo", "path": "actix_todo" },
+    { "name": "axum_graphql", "path": "axum_graphql" },
+    { "name": "axum_live", "path": "axum_live" },
+    { "name": "axum_todo", "path": "axum_todo" },
+    { "name": "axum_websockets", "path": "axum_websockets" },
+    { "name": "axum_ws_live", "path": "axum_ws_live" },
+    { "name": "bevy-snake", "path": "bevy-snake" },
+    { "name": "code-counter", "path": "code-counter" },
+    { "name": "ddd_example", "path": "ddd_example" },
+    { "name": "demo", "path": "demo" },
+    { "name": "gen_locale", "path": "gen_locale" },
+    { "name": "my_blog_os", "path": "my_blog_os" },
+    { "name": "my-proj-clean", "path": "my-proj-clean" },
+    { "name": "my-tui", "path": "my-tui" },
+    { "name": "my_brev_game", "path": "my_brev_game" },
+    { "name": "napi-3", "path": "napi-3" },
+    { "name": "oss", "path": "oss" },
+    { "name": "rustlings", "path": "rustlings" },
+    { "name": "terminal_todo", "path": "terminal_todo" }
+  ],
+  "settings": {
+    "search.exclude": {
+      "**/target": true,
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/.git": true
+    },
+    "files.watcherExclude": {
+      "**/target/**": true,
+      "**/node_modules/**": true,
+      "**/dist/**": true
+    },
+    "rust-analyzer.linkedProjects": [
+      "actix_todo/Cargo.toml",
+      "axum_graphql/Cargo.toml",
+      "axum_live/Cargo.toml",
+      "axum_todo/Cargo.toml",
+      "axum_websockets/Cargo.toml",
+      "axum_ws_live/Cargo.toml",
+      "bevy-snake/Cargo.toml",
+      "code-counter/Cargo.toml",
+      "ddd_example/Cargo.toml",
+      "demo/Cargo.toml",
+      "gen_locale/Cargo.toml",
+      "my_blog_os/Cargo.toml",
+      "my-proj-clean/Cargo.toml",
+      "my-tui/Cargo.toml",
+      "my_brev_game/Cargo.toml",
+      "napi-3/Cargo.toml",
+      "oss/Cargo.toml",
+      "oss/sdk/Cargo.toml",
+      "rustlings/Cargo.toml",
+      "terminal_todo/Cargo.toml"
+    ]
+  }
+}
