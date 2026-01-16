@@ -7,16 +7,23 @@ edition = "2021"
 actix = "0.13.5"
 actix-cors = "0.7.0"
 actix-web = { version = "4.9.0", features = ["openssl"] }
-chrono = "0.4.39"
+actix-web-httpauth = "0.8.2"
+argon2 = "0.5.3"
+chrono = { version = "0.4", features = ["serde"] }
 dotenv = "0.15.0"
 env_logger = "0.11.7"
+jsonwebtoken = "9.3.1"
 log = "0.4.26"
 log4rs = "1.3.0"
 openssl = "0.10.70"
+rand = "0.9.1"
 serde = { version = "1.0.217", features = ["derive"] }
 serde_json = "1.0.138"
 sqlx = { version = "0.8.3", features = [
-  "mysql",
+  "chrono",
+  "postgres",
   "runtime-tokio-native-tls",
-  "time",
 ] }
+utoipa = { version = "5.3.1", features = ["actix_extras", "chrono"] }
+utoipa-redoc = { version = "6.0.0", features = ["actix-web"] }
+utoipa-swagger-ui = { version = "9.0.1", features = ["actix-web"] }

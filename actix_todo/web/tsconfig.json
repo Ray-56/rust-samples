@@ -2,7 +2,13 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@domains/*": ["./src/domains/*"],
+      "@application/*": ["./src/application/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"],
+      "@presentation/*": ["./src/presentation/*"],
+      "@ui/*": ["./src/presentation/ui/*"],
+      "@utils/*": ["./src/infrastructure/utils/*"]
     },
     "types": ["./global"]
   },

@@ -1,20 +1,30 @@
-use std::fmt::{self, Display, Formatter};
-
+use std::{
+    fmt::{self, Display},
+    str::FromStr,
+};
+use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
+use utoipa::ToSchema;
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, ToSchema)]
 pub struct TodoItem {
-    pub id: usize,
+    #[schema(example = 1)]
+    pub id: i32,
+    #[schema(example = "Todo item description")]
     pub description: String,
     #[serde(default = "default_status")]
+    #[schema(example = "pending")]
     pub status: TodoStatus,
     #[serde(default)]
+    #[schema(example = 1000)]
     pub position: usize,
-    pub created_at: i64,
-    pub updated_at: i64,
+    #[schema(example = "2023-10-01T12:00:00Z")]
+    pub created_at: DateTime<Utc>,
+    #[schema(example = "2023-10-01T12:00:00Z")]
+    pub updated_at: DateTime<Utc>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, ToSchema)]
 pub enum TodoStatus {
     #[serde(rename = "pending")]
     Pending,
@@ -22,6 +32,19 @@ pub enum TodoStatus {
     Completed,
     #[serde(rename = "doing")]
     Doing,
+}
+
+impl FromStr for TodoStatus {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "pending" => Ok(TodoStatus::Pending),
+            "completed" => Ok(TodoStatus::Completed),
+            "doing" => Ok(TodoStatus::Doing),
+            _ => Err(format!("Invalid status: {}", s)),
+        }
+    }
 }
 
 impl TodoStatus {
@@ -35,8 +58,12 @@ impl TodoStatus {
 }
 
 impl Display for TodoStatus {
-    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        write!(f, "{:?}", self.as_str())
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            TodoStatus::Pending => write!(f, "pending"),
+            TodoStatus::Doing => write!(f, "doing"),
+            TodoStatus::Completed => write!(f, "completed"),
+        }
     }
 }
 
@@ -44,26 +71,3 @@ fn default_status() -> TodoStatus {
     TodoStatus::Pending
 }
 
-#[derive(Serialize, Deserialize, Debug)]
-pub struct AddTodoItem {
-    pub description: Option<String>,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct PatchTodoItem {
-    pub description: Option<String>,
-    pub status: Option<TodoStatus>,
-    pub position: Option<usize>,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-pub struct PutTodoItem {
-    pub description: String,
-    pub status: TodoStatus,
-    pub position: usize,
-}
-
-#[derive(Serialize, Deserialize)]
-pub struct ReorderTodoItem {
-    pub status: TodoStatus,
-}

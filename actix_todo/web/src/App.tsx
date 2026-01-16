@@ -1,16 +1,18 @@
 import { Routes, Route, Outlet, Link, NavLink } from "react-router-dom";
 import { cx } from "class-variance-authority";
 
-import Todos from "@/pages/todos";
+import TodoList from "@/presentation/pages/todo/TodoList";
+import Login from "@/presentation/pages/auth/Login"
 import { Button } from "./components/ui/button";
 
 export default function App() {
   return (
     <Routes>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="about" element={<About />} />
-        <Route path="todos" element={<Todos />} />
+        <Route path="todos" element={<TodoList />} />
         <Route path="*" element={<NoMatch />} />
       </Route>
     </Routes>

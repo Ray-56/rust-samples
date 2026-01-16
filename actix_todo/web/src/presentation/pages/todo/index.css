@@ -1,0 +1,6 @@
+@reference "@/global.css";
+
+.todo-action {
+  @apply p-1 cursor-pointer hover:opacity-60 transition-opacity;
+}
+
