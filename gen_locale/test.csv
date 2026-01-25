@@ -1,0 +1,5 @@
+﻿产品模块,页面,页面模块,功能文案/Hover/弹窗,历史版本/Version,设计稿,功能解释,ID,zh-CN,en-US,es-ES,id-ID,pt-BR,,,,,,,,,,,,,,,,
+,,,,公共字段,,,common.antd.dataEntry.input.plh,请输入,Please enter,Introducir ,Harap masukkan,Introduzir,,,,,,,,,,,,,,,,
+,,,,公共字段,,,common.antd.dataEntry.inputNumber.plh,请输入数字,Please enter a number,Introduzca un número,Silakan masukkan angka,Faça o favor de digitar número,,,,,,,,,,,,,,,,
+,,,,公共字段,,,common.antd.dataEntry.select.plh,请选择,Please select,Seleccionar,Silahkan pilih,"Por favor, seleccione",,,,,,,,,,,,,,,,
+,,,,公共字段,,,common.antd.dataEntry.upload.plh,请上传,Please upload,Cargar,Silakan unggah,Faça o favor de carregar,,,,,,,,,,,,,,,,

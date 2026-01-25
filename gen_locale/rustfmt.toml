@@ -1,0 +1,45 @@
+# rustfmt.toml
+# Stable 版本支持的配置（项目使用 Rust 1.75+ stable channel）
+
+# 基础设置
+edition = "2021"
+style_edition = "2021"       # 2024 style edition 需要 nightly，使用 2021 更稳定
+max_width = 100
+tab_spaces = 2
+newline_style = "Unix"
+use_small_heuristics = "Max"
+
+# 链式调用和函数调用宽度
+chain_width = 60
+fn_call_width = 60
+
+# 导入和模块排序
+reorder_imports = true
+reorder_modules = true
+
+# 代码清理
+remove_nested_parens = true
+merge_derives = true
+
+# Match 表达式
+match_arm_leading_pipes = "Preserve"
+match_block_trailing_comma = false   # 默认值，保持一致性
+
+# 函数参数布局
+fn_params_layout = "Tall" # 默认值，适合多参数函数
+
+# 字段初始化简写（2021 edition 默认启用）
+use_field_init_shorthand = true
+use_try_shorthand = true        # 使用 ? 而不是 try! 宏
+
+# 单行表达式阈值
+single_line_if_else_max_width = 50
+single_line_let_else_max_width = 50
+
+# 注意：以下选项需要 nightly channel（已移除）：
+# - indent_style, spaces_around_ranges, binop_separator
+# - match_arm_blocks, trailing_comma, trailing_semicolon
+# - fn_single_line, where_single_line
+# - imports_granularity, group_imports
+#
+# 如需使用这些功能，需要切换到 nightly 并设置 unstable_features = true

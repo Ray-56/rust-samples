@@ -1,1 +1,16 @@
+# Output directories
 dist/*
+locales/*
+output/
+test_output/
+test_output_json/
+test_validation/
+
+# Logs and temp files
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Environment
+.env*

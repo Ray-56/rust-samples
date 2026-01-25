@@ -1,0 +1,5 @@
+ID,zh-CN,en-US
+dup.key,你好,Hello
+dup.key,你好2,Hello2
+empty.zh,,Not empty
+msg.welcome,欢迎 {name},Welcome
