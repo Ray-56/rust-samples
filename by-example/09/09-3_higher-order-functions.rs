@@ -6,29 +6,29 @@ fn main() {
     println!("Find the sum of the squared odd numbers under 1000");
     let upper = 1000;
 
-    // 命令式（imperative）的写法
-    // 声明累加器变量
+    // How to write imperative
+    // Declare accumulator variable
     let mut acc = 0;
-    // 迭代：0，1，2，... 到无穷大
+    // Iteration: 0, 1, 2,... to infinity
     for n in 0.. {
-        // 数字的平方
+        // square of number
         let n_squared = n * n;
 
         if n_squared >= upper {
-            // 若大于上限则退出循环
+            // If it is greater than the upper limit, exit the loop
             break;
         } else if is_odd(n_squared) {
-            // 如果是奇数就计数
+            // If it's an odd number, count
             acc += n_squared;
         }
     }
     println!("imperative style: {}", acc);
 
-    // 函数式的写法
+    // Functional writing
     let sum_of_squared_odd_numbers: u32 =
-        (0..).map(|n| n * n)                // 所有自然数取平方
-            .take_while(|&n| n < upper)     // 取小于上限的
-            .filter(|&n| is_odd(n))         // 取奇数
-            .fold(0, |sum, i| sum + i);     // 最后加起来
+        (0..).map(|n| n * n)                // Square all natural numbers
+            .take_while(|&n| n < upper)     // Take less than the upper limit
+            .filter(|&n| is_odd(n))         // Take an odd number
+            .fold(0, |sum, i| sum + i);     // Add up at the end
     println!("functional style: {}", sum_of_squared_odd_numbers);
 }

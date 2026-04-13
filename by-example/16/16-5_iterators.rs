@@ -3,33 +3,33 @@ struct Fibonacci {
     next: u32,
 }
 
-// 为`Fibonacci`（斐波那契）实现`Iterator`
-// `Iterator` trait 只需定义一个能返回`next`元素的方法
+// Implement `Iterator` for `Fibonacci`
+// The `Iterator` trait simply defines a method that returns the `next` element
 impl Iterator for Fibonacci {
     type Item = u32;
 
-    // 我们来这里使用`.curr`和`.next`来定义数列（sequence）
-    // 返回类型为`Option<T>`
-    //      * 当`Iterator`结束时，返回`None`
-    //      * 其他情况，返回被`Some`包裹（wrap）的下一个值
+    // We come here to use `.curr` and `.next` to define the sequence (sequence)
+    // The return type is `Option<T>`
+    // * When `Iterator` ends, return `None`
+    // * In other cases, return the next value wrapped by `Some`
     fn next(&mut self) -> Option<u32> {
         let new_next = self.curr + self.next;
 
         self.curr = self.next;
         self.next = new_next;
 
-        // 既然斐波那契数列不存在终点，那么`Iterator`将不可能返回`None`，而总是返回`Some`
+        // Since there is no end point in the Fibonacci sequence, `Iterator` will never return `None`, but will always return `Some`
         Some(self.curr)
     }
 }
 
-// 返回一个斐波那契数列生成器
+// Returns a Fibonacci sequence generator
 fn fibonacci() -> Fibonacci {
     Fibonacci { curr: 1, next: 1 }
 }
 
 fn main() {
-    // `0..3`是一个`Iterator`，会产生：0、1 和 2
+    // `0..3` is an `Iterator` that produces: 0, 1 and 2
     let mut sequence = 0..3;
 
     println!("Four consecutive `next` calls on 0..3");
@@ -38,14 +38,14 @@ fn main() {
     println!("> {:?}", sequence.next());
     println!("> {:?}", sequence.next());
 
-    // `for`遍历`Iterator`直到返回`None`
-    // 并且每个`Some`值都被解包（unwrap），然后绑定给一个变量（这里是`i`）
+    // `for` iterates over `Iterator` until it returns `None`
+    // And each `Some` value is unwrapped (unwrap) and then bound to a variable (here `i`)
     println!("Iterate throuth 0..3 using `for`");
     for i in 0..3 {
         println!("> {}", i);
     }
 
-    // `take(n)`方法提取`Iterator`的前`n`项、
+    // The `take(n)` method extracts the first `n` items of `Iterator`,
     println!("The first four terms of the Fibonacci sequence are:");
     for i in fibonacci().take(4) {
         println!("> {}", i);
@@ -53,7 +53,7 @@ fn main() {
 
     let array = [1u32, 3, 3, 7];
 
-    // `iter`方法对数组/slice 产生一个`Iterator`
+    // The `iter` method generates an `Iterator` for the array/slice
     println!("Iterate the following array {:?}", &array);
     for i in array.iter() {
         println!("> {}", i);

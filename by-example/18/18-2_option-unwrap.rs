@@ -1,7 +1,7 @@
-// 平民（commoner）们见多识广，收到什么礼物都能应对
-// 所有礼物都显示的使用`match`来处理
+// Commoners are well-informed and can handle any gift they receive.
+// All gifts are handled explicitly using `match`
 fn give_commoner(gift: Option<&str>) {
-    // 指出每种情况下的做法
+    // Indicate what to do in each situation
     match gift {
         Some("snake") => println!("Yuck! I'm throwing that snake in a fire."),
         Some(inner) => println!("{}? How nice.", inner),
@@ -9,10 +9,10 @@ fn give_commoner(gift: Option<&str>) {
     }
 }
 
-// 养在深闺认为是的公主见到蛇就会`panic`
-// 这里所有礼物都使用`unwrap`隐式处理
+// The princess raised in a purdah will panic when she sees a snake
+// All gifts here are handled implicitly using `unwrap`
 fn give_princess(gift: Option<&str>) {
-    // `unwrap`在接收到`None`时将返回`panic`
+    // `unwrap` will return `panic` when receiving `None`
     let inside = gift.unwrap();
     if inside == "snake" { panic!("AAAaaaaa!!!!"); }
 

@@ -1,7 +1,7 @@
 use std::error;
 use std::fmt;
 
-// 为`Box<error::Error>`取别名
+// Aliases `Box<error::Error>`
 type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
 #[derive(Debug, Clone)]
@@ -15,8 +15,8 @@ impl fmt::Display for EmptyVec {
 
 impl error::Error for EmptyVec {}
 
-// 这里的结构和之前一样，但是这次没有把所有的`Result`和`Option`串起来
-// 而是使用`?`立即得到内部值
+// The structure here is the same as before, but this time all the `Result` and `Option` are not strung together.
+// Instead use `?` to get the internal value immediately
 fn double_first(vec: Vec<&str>) -> Result<i32> {
     let first = vec.first().ok_or(EmptyVec)?;
     let parsed = first.parse::<i32>()?;

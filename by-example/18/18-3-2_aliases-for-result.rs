@@ -1,6 +1,6 @@
 use std::num::ParseIntError;
 
-// 为带有错误类型`ParseIntError`的`Result`定义一个泛型别名
+// Define a generic alias for `Result` with error type `ParseIntError`
 type AliasedResult<T> = Result<T, ParseIntError>;
 
 fn multiply(first_number_str: &str, second_number_str: &str) -> AliasedResult<i32> {
@@ -19,11 +19,11 @@ fn print(result: AliasedResult<i32>) {
 }
 
 fn main() {
-    // 这种情况下仍然会给出正确的答案
+    // In this case the correct answer will still be given
     let twenty = multiply("10", "2");
     print(twenty);
 
-    // 这种情况下就会提供一条更有用的错误信息
+    // In this case a more useful error message will be provided
     let tt = multiply("t", "2");
     print(tt);
 }

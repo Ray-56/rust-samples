@@ -137,9 +137,9 @@ impl Writer {
     pub fn write_string(&mut self, s: &str) {
         for byte in s.bytes() {
             match byte {
-                // 可以是能打印的 ASCII 码字节，也可以是换行符
+                // It can be a printable ASCII code byte or a newline character.
                 0x20...0x7e | b'\n' => self.write_byte(byte),
-                // 不包含在上述范围之内的字节
+                // Bytes not included in the above range
                 _ => self.write_byte(0xfe),
             }
 

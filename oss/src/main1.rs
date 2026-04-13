@@ -9,10 +9,10 @@ use oss::Cli;
 use sdk::request::RequestBuilder;
 use sdk::{error::OssError, oss::OSS};
 
-// TODO: html 最后上传  ✅
-// TODO: 记录上传文件数量  ✅
-// TODO: 如果 input 是文件夹，那么上传文件夹下所有文件。如果是文件，那么上传文件
-//       改为把路径的第一个文件夹移除  ✅
+// TODO: html last upload ✅
+// TODO: Record the number of uploaded files ✅
+// TODO: If input is a folder, upload all files in the folder. If it is a file, then upload the file
+// Remove the first folder of the path instead ✅
 
 #[derive(Debug, Clone)]
 struct Entity {

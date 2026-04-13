@@ -2,8 +2,8 @@ trait Person {
     fn name(&self) -> String;
 }
 
-// Person 是 Student 的父 trait
-// 实现 Student 需要你也 impl 了 Person
+// Person is the parent trait of Student
+// Implementing Student requires that you also impl Person
 trait Student: Person {
     fn university(&self) -> String;
 }
@@ -12,8 +12,8 @@ trait Programmer {
     fn fav_language(&self) -> String;
 }
 
-// CompSciStudent（computer science student，计算机科学的学生）是 Programmer 和 Student 两者的子类
-// 实现 CompSciStudent 需要你同时 impl 了两个父 trait
+// CompSciStudent (computer science student, computer science student) is a subclass of both Programmer and Student
+// Implementing CompSciStudent requires you to impl both parent traits at the same time
 trait CompSciStudent: Programmer + Student {
     fn git_username(&self) -> String;
 }

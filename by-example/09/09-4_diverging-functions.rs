@@ -11,13 +11,13 @@ fn main() {
     fn sum_odd_numbers(up_to: u32) -> u32 {
         let mut acc = 0;
         for i in 0..up_to {
-            // 注意这个 match 表达式的返回值必须为 u32
-            // 因为“addition”这个变量是这个类型
+            // Note that the return value of this match expression must be u32
+            // Because the variable "addition" is of this type
             let addition: u32 = match i%2 == 1 {
-                // `i`变量的类型为 u32
+                // The type of `i` variable is u32
                 true => i,
-                // 另一方面`continue`表达式不返回 u32，单它仍然没问题
-                // 因为它永远不会返回，因此不会违犯匹配表达式的类型要求
+                // On the other hand the `continue` expression does not return u32, it is still fine
+                // Because it never returns, it does not violate the type requirement of the matching expression
                 false => continue,
             };
             acc += addition;

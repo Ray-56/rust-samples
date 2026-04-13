@@ -1,8 +1,8 @@
 use std::num::ParseIntError;
 
-// 就像`Option`那样，我们可以使用`map()`之类的组合算子
-// 除去写法外，这个函数与上面那个完全一致，它的作用是：
-// 如果值是合法的，计算其乘积，否则返回错误
+// Just like `Option`, we can use combinatorial operators like `map()`
+// Except for the writing method, this function is exactly the same as the one above. Its function is:
+// If the value is legal, calculate its product, otherwise return an error
 fn multiply(first_number_str: &str, second_number_str: &str) -> Result<i32, ParseIntError> {
     first_number_str.parse::<i32>().and_then(|first_number| {
         second_number_str
@@ -19,11 +19,11 @@ fn print(result: Result<i32, ParseIntError>) {
 }
 
 fn main() {
-    // 这种情况下仍然会给出正确的答案
+    // In this case the correct answer will still be given
     let twenty = multiply("10", "2");
     print(twenty);
 
-    // 这种情况下就会提供一条更有用的错误信息
+    // In this case a more useful error message will be provided
     let tt = multiply("t", "2");
     print(tt);
 }

@@ -1,11 +1,11 @@
 fn main() {
-    // 将`optional`设为`Option<i32>`类型
+    // Set `optional` to type `Option<i32>`
     let mut optional = Some(0);
 
-    /* // 重复运行这个测试
+    /* // Repeat this test
     loop {
         match optional {
-            // 如果`optional`解构成功，就执行下面语句块
+            // If `optional` is deconstructed successfully, execute the following statement block
             Some(i) => {
                 if i > 9 {
                     println!("Greater than 9, quit!");
@@ -15,12 +15,12 @@ fn main() {
                     optional = Some(i + 1);
                 }
             },
-            // 解构失败时退出循环
+            // Exit the loop when destructuring fails
             _ => { break; }
         }
     } */
 
-    // 这读作：当`let`将`optional`解构成`Some(i)`时，就执行语句块（`{}`）。否则就`break`
+    // This reads: When `let` deconstructs `optional` into `Some(i)`, the statement block (`{}`) is executed. Otherwise, `break`
     while let Some(i) = optional {
         if i > 9 {
             println!("Greater than 9, quit!");
@@ -30,6 +30,6 @@ fn main() {
             optional = Some(i + 1);
         }
     }
-    // ^ `if let` 有可选的 `else`/`else if` 分句
-    // 而`while let`没有
+    // ^ `if let` has optional `else`/`else if` clauses
+    // while `while let` does not
 }

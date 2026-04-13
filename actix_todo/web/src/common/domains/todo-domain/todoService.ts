@@ -31,7 +31,7 @@ export default class TodoService {
   }
 
   /**
-   * 更新 todo，执行后会更新对应的 todo 实例
+   * Update todo. After execution, the corresponding todo instance will be updated.
    */
   async patchTodo(id: number, data: Partial<Omit<API.TodoDatum, "id">>) {
     const rsp = await controller.patchTodo(id, data);
@@ -50,12 +50,14 @@ export default class TodoService {
     }
   }
 
-  /** 重新定位 */
+  /** Reposition */
+
   async repositionTodo(id: number, position: number) {
     await this.patchTodo(id, { position: position });
   }
 
-  /** 重整排序的序号 */
+  /** Rearrange the sequence number */
+
   async reorderTodos(status: API.TodoDatum["status"]) {
     await controller.reorderTodo(status);
   }

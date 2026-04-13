@@ -6,7 +6,7 @@ macro_rules! calculate {
         }
     }};
 
-    // 递归地拆解多重的`eval`
+    // Recursively disassemble multiple `eval`
     (eval $e: expr, $(eval $es: expr), +) =>{{
         calculate! { eval $e }
         calculate! { $(eval $es), + }

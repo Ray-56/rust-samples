@@ -2,7 +2,7 @@ struct Droppable {
     name: &'static str,
 }
 
-// 这个简单的`drop`实现添加了打印到控制台的功能
+// This simple `drop` implementation adds the ability to print to the console
 impl Drop for Droppable {
     fn drop(&mut self) {
         println!("> Drapping {}", self.name);
@@ -12,11 +12,11 @@ impl Drop for Droppable {
 fn main() {
     let _a = Droppable { name: "a" };
 
-    // 代码块 A
+    // code block A
     {
         let _b = Droppable { name: "b" };
 
-        // 代码块 A
+        // code block A
         {
             let _c = Droppable { name: "c" };
             let _d = Droppable { name: "d" };
@@ -29,11 +29,11 @@ fn main() {
     }
     println!("Just exited block A");
 
-    // 变量可以手动使用`drop`函数来销毁
+    // Variables can be destroyed manually using the `drop` function
     drop(_a);
-    // 试一试 ^ 将此行注释掉
+    // Try it ^ comment out this line
 
     println!("end of the main function");
 
-    // `_a` *不会* 在这里再次销毁，因为它已经被（手动）销毁
+    // `_a` *will* not be destroyed again here because it has already been (manually) destroyed
 }

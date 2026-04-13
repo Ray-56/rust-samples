@@ -6,7 +6,7 @@ pub async fn jwt_middleware(
     req: ServiceRequest,
     credentials: BearerAuth,
 ) -> Result<ServiceRequest, (Error, ServiceRequest)> {
-    // 从 app_data 中获取 AuthService（确保在 App::new() 中注入了 AuthService）
+    // Get the AuthService from app_data (make sure AuthService is injected in App::new())
     let auth_service = match req.app_data::<web::Data<AuthService>>() {
         Some(data) => data,
         None => return Err((ErrorUnauthorized("AuthService not found"), req)),
@@ -15,12 +15,12 @@ pub async fn jwt_middleware(
     let token = credentials.token();
     match auth_service.validate_token(token) {
         Ok(claims) => {
-            // 将验证后的 Claims 插入到请求中供后续 handler 使用
+            // Insert the verified Claims into the request for use by subsequent handlers
             req.extensions_mut().insert(claims);
             Ok(req)
         }
         Err(_) => {
-            // 返回 401 Unauthorized 错误
+            // Returns 401 Unauthorized error
             Err((ErrorUnauthorized("Invalid token"), req))
         }
     }

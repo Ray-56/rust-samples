@@ -1,18 +1,18 @@
 # clippy.toml
-# Clippy 可配置参数（阈值、模式等）
-# 注意：lint 级别（allow/deny/warn）应在 Cargo.toml 的 [lints.clippy] 中配置
+# Clippy configurable parameters (thresholds, modes, etc.)
+# Note: lint level (allow/deny/warn) should be configured in [lints.clippy] of Cargo.toml
 
-# 认知复杂度阈值（默认 25，数据库代码允许更复杂）
+# Cognitive complexity threshold (default 25, database code allows more complexity)
 cognitive-complexity-threshold = 30
 
-# 函数参数数量阈值（默认 7，B+Tree 等数据结构需要更多参数）
+# Threshold for the number of function parameters (default 7, data structures such as B+Tree require more parameters)
 too-many-arguments-threshold = 10
 
-# 类型复杂度阈值
+# Type complexity threshold
 type-complexity-threshold = 300
 
-# 枚举变体大小阈值（默认 200，Value 枚举可能更大）
+# Enum variant size threshold (default 200, Value enums may be larger)
 enum-variant-size-threshold = 300
 
-# 最小支持的 Rust 版本（与 Cargo.toml 保持一致）
+# Minimum supported Rust version (consistent with Cargo.toml)
 msrv = "1.75"

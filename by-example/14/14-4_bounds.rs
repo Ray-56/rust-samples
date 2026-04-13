@@ -1,4 +1,4 @@
-// 这个 trait 用来实现打印标记：`{:?}`
+// This trait is used to implement printing tags: `{:?}`
 use std::fmt::Debug;
 
 trait HasArea {
@@ -14,12 +14,12 @@ struct Rectangle { length: f64, height: f64 }
 #[allow(dead_code)]
 struct Triangle { length: f64, height: f64 }
 
-// 泛型`T`必须实现`Debug`。只要满足这点，无论什么类型都可以让下面函数正常工作
+// Generic `T` must implement `Debug`. As long as this is met, the following function can work normally no matter what type it is.
 fn print_debug<T: Debug>(t: &T) {
     println!("{:?}", t);
 }
 
-// `T`必须实现`HasArea`。任意符合该约束的泛型的实例都可以访问`HasArea`的`area`函数
+// `T` must implement `HasArea`. Any instance of a generic that conforms to this constraint can access the `area` function of `HasArea`
 fn area<T: HasArea>(t: &T) -> f64 { t.area() }
 
 fn main() {

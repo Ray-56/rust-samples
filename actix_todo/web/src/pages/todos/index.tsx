@@ -80,7 +80,7 @@ function Inner() {
       type: ActionType.RepositionTodo,
       payload: { type: "pending", todos: newPending },
     });
-    // // TODO: 待验证
+    // // TODO: To be verified
     // ctx.dispatch({ type: ActionType.RepositionTodo, todo: target! });
   }
 

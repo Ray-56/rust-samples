@@ -1,14 +1,14 @@
 trait UsernameWidget {
-    // 从这个 widget 中获取选定的用户名
+    // Get the selected username from this widget
     fn get(&self) -> String;
 }
 
 trait AgeWidget {
-    // 从这个 widget 中获得选定的年龄
+    // Get the selected age from this widget
     fn get(&self) -> u8;
 }
 
-// 同时具有 UsernameWidget 和 AgeWidget 的表单
+// Form with both UsernameWidget and AgeWidget
 struct Form {
     usename: String,
     age: u8,
@@ -32,8 +32,8 @@ fn main() {
         age: 28,
     };
 
-    // 如果取消下面行注释，则会收到一条错误消息，提示“multiple `get` found”（找到了多个`get`)
-    // 因为毕竟有多个名为`get`的方法
+    // If you uncomment the following line, you will receive an error message saying "multiple `get` found" (Multiple `get` found)
+    // Because after all, there are multiple methods named `get`
     // println!("{}", form.get());
 
     let username = <Form as UsernameWidget>::get(&form);

@@ -1,16 +1,16 @@
 use std::fmt;
 
-// 这个 extern 代码块链接到 libm 库
+// This extern code block is linked to the libm library
 #[link(name = "m")]
 extern {
-    // 这个外部函数用于计算单精度复数的平方根
+    // This external function is used to calculate the square root of a single-precision complex number.
     fn csqrtf(z: Complex) -> Complex;
 
-    // 这个用来计算单精度复数的复变余弦
+    // This is used to calculate the complex cosine of a single precision complex number
     fn ccosf(z: Complex) -> Complex;
 }
 
-// 由于调用其他语言的函数是被认为不安全的，我们通常会给他们写一层安全的封装
+// Since calling functions in other languages ​​is considered unsafe, we usually write a safe wrapper for them.
 fn cos(z: Complex) -> Complex {
     unsafe { ccosf(z) }
 }
@@ -19,18 +19,18 @@ fn main() {
     // z = -1 + 0i
     let z = Complex { re: -1., im: 0. };
 
-    // 调用外部语言函数是不安全的操作
+    // Calling external language functions is an unsafe operation
     let z_sqrt = unsafe {
         csqrtf(z)
     };
 
     println!("the square root of {:?} is {:?}", z, z_sqrt);
 
-    // 调用不去安全操作的安全 API 封装
+    // Calling a secure API wrapper that does not perform secure operations
     println!("cos({:?}) = {:?}", z, cos(z));
 }
 
-// 单精度复数的最简实现
+// The simplest implementation of single precision complex numbers
 #[repr(C)]
 #[derive(Clone, Copy)]
 struct Complex {

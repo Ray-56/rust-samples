@@ -1,5 +1,5 @@
-#![no_std] // 不链接 Rust 标准库
-#![no_main] // 禁用所有的 Rust 层级的入口点
+#![no_std] // Not linking against the Rust standard library
+#![no_main] // Disable all Rust-level entry points
 #![feature(custom_test_frameworks)]
 #![test_runner(crate::test_runner)]
 #![reexport_test_harness_main = "test_main"]
@@ -22,7 +22,7 @@ pub extern "C" fn _start() -> ! {
     loop {}
 }
 
-/// 这个函数将在 panic 时被调用
+/// This function is called when a panic occurs
 // our existing panic handler
 #[cfg(not(test))] // new attribute
 #[panic_handler]

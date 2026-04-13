@@ -1,36 +1,36 @@
-// 此函数取得堆分配内存的所有权
+// This function takes ownership of the heap allocated memory
 fn destroy_box(c: Box<i32>) {
     println!("Destroying a box that contains {}", c);
 
-    // `c`被销毁且内存得到释放
+    // `c` is destroyed and the memory is freed
 }
 
 fn main() {
-    // 栈分配的整型
+    // stack allocated integer
     let x = 5u32;
 
-    // 将`x` *复制* 到`y`--不存在资源移动
+    // *Copy* `x` to `y` -- no resource movement
     let y = x;
 
-    // 两个值各自都可以使用
+    // Both values ​​can be used independently
     println!("x is {}, and y is {}", x, y);
 
-    // `a`是一个指向堆分配的整数的指针
+    // `a` is a pointer to a heap allocated integer
     let a = Box::new(5i32);
 
     println!("a contains: {}", a);
 
-    // *移动* `a`到`b`
+    // *move* `a` to `b`
     let b = a;
-    // 把`a`的指针地址（而非数据）复制到`b`。现在两者都指向同一个堆分配的数据，但是现在是`b`拥有它
+    // Copies the pointer address (not the data) of `a` to `b`. Now both point to the same heap allocated data, but now `b` owns it
 
-    // 报错！`a`不能访问数据，因为它不再拥有那部分堆上的内存
+    // Report an error! `a` cannot access the data because it no longer owns that portion of the heap memory
     // println!("a conatins: {}", a);
 
-    // 此函数从`b`中取得堆分配的内存的所有权
+    // This function takes ownership of the heap allocated memory from `b`
     destroy_box(b);
 
-    // 此时堆内存已经被释放，这个操作会导致解引用已释放的内存，而这是编译器禁止的
-    // 报错！和前面出错的原因一样
+    // At this time, the heap memory has been released. This operation will cause dereference of the released memory, which is prohibited by the compiler.
+    // Report an error! The same reason as the previous error
     // println!("b conatins: {}", b);
 }

@@ -44,7 +44,7 @@ export function UserList({
   const totalPages = Math.ceil(total / pageSize);
 
   if (isLoading) {
-    return <p className="text-center">加载中...</p>;
+    return <p className="text-center">Loading...</p>;
   }
 
   if (error) {
@@ -52,7 +52,7 @@ export function UserList({
   }
 
   if (users.length === 0) {
-    return <p className="text-center text-gray-500">暂无用户</p>;
+    return <p className="text-center text-gray-500">No users yet</p>;
   }
 
   return (
@@ -60,9 +60,9 @@ export function UserList({
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>用户名</TableHead>
+            <TableHead>Username</TableHead>
             <TableHead>ID</TableHead>
-            <TableHead>操作</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -77,7 +77,7 @@ export function UserList({
                   onClick={() => onDelete(user.getId())}
                   disabled={isLoading || currentUserId === user.getId()}
                 >
-                  删除
+                  Delete
                 </Button>
               </TableCell>
             </TableRow>

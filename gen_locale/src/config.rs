@@ -1,19 +1,19 @@
-/// 唯一值`ID`与多种语言在哪列的配置
+/// Column configuration for the unique `ID` field and language columns
 #[derive(Debug)]
 pub struct LocaleIndexConf {
-    /// 文件中的 语言，如果为 None 则表示当前为 ID 列
+    /// The language in the file; `None` means the current column is the ID column
     pub lang: Option<String>,
-    /// excel 中的下标
+    /// Column index in Excel
     pub source_idx: usize,
 }
 
-/// 行配置
+/// Row configuration
 #[derive(Debug, Clone)]
 pub struct LocaleRowConf {
-    /// 语言
+    /// Language
     pub lang: String,
-    /// 生成 JSON 的 Key
+    /// Generated JSON key
     pub key: String,
-    /// 生成 JSON 的 Value
+    /// Generated JSON value
     pub value: String,
 }

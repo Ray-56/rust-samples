@@ -1,9 +1,9 @@
 struct Container(i32, i32);
 
-// 这个 trait 检查给定的 2 个项是否存储于容器中
-// 并且能够获得容器的第一个或最后一个值
+// This trait checks whether the given 2 items are stored in the container
+// and be able to get the first or last value of the container
 trait Contains {
-    // 在这里定义可以被方法使用的泛型类型
+    // Generic types that can be used by methods are defined here
     type A;
     type B;
 
@@ -13,12 +13,12 @@ trait Contains {
 }
 
 impl Contains for Container {
-    // 指出`A`和`B`是什么类型。如果`input`（输入）类型为`Container(i32, i32)`，
-    // 那么`output`（输出）类型会被确定为`i32`和`i32`
+    // Indicate what types `A` and `B` are. If the `input` type is `Container(i32, i32)`,
+    // Then the `output` (output) type will be determined as `i32` and `i32`
     type A = i32;
     type B = i32;
 
-    // `&Self::A`和`&Self::B`在这里也是合法的类型
+    // `&Self::A` and `&Self::B` are also legal types here
     fn contains(&self, number_1: &i32, number_2: &i32) -> bool {
         (&self.0 == number_1) && (&self.1 == number_2)
     }

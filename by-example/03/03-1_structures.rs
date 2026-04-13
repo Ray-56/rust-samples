@@ -4,57 +4,57 @@ struct Person {
     age: u8,
 }
 
-// 单元结构体
+// unit structure
 struct Unit;
 
-// 元组结构体
+// tuple structure
 struct Pair(i32, f32);
 
-// 带有两个字段的结构体
+// Structure with two fields
 #[derive(Debug)]
 struct Point {
     x: f32,
     y: f32,
 }
 
-// 结构体可以作为另一个结构体的字段
+// A structure can be a field of another structure
 #[derive(Debug)]
 struct Rectangle {
-    // 可以在命名空间给定左上角和右下角在空间中的位置来指定矩形
+    // A rectangle can be specified by giving the positions of the upper left and lower right corners in space in the namespace.
     top_left: Point,
     bottom_right: Point,
 }
 
 fn main() {
-    // 使用简单的写法初始化字段，并创建结构体
+    // Use simple writing to initialize fields and create structures
     let name = String::from("Ray");
     let age = 27;
     let ray = Person { name, age };
 
-    // 以 Debug 方式打印结构体
+    // Print the structure in Debug mode
     println!("{:?}", ray);
 
-    // 实例化结构体 `Point`
+    // Instantiate structure `Point`
     let point: Point = Point { x: 10.3, y: 0.4 };
 
-    // 访问 point 的字段
+    // Access the fields of point
     println!("point coordinates: ({}, {})", point.x, point.y);
 
-    // 使用结构体更新语法创建新的 Point
-    // 这样可以用到之前的 point 的字段
+    // Create a new Point using structure update syntax
+    // In this way, the fields of the previous point can be used
     let bottom_right = Point { x: 5.2, ..point };
 
-    // `new_point.y`与`point.y`一样，因为这个字段就是从`point`中来的
+    // `new_point.y` is the same as `point.y`, because this field comes from `point`
     println!("second point: ({}, {})", bottom_right.x, bottom_right.y);
 
-    // 使用`let`绑定来解构 point
+    // Destructuring point using `let` binding
     let Point {
         x: left_edge,
         y: top_edge,
     } = point;
 
     let _rectangle = Rectangle {
-        // 结构体的实例化也是一个表达式
+        // The instantiation of a structure is also an expression
         top_left: Point {
             x: left_edge,
             y: top_edge,
@@ -62,21 +62,21 @@ fn main() {
         bottom_right: bottom_right,
     };
 
-    // 实例化一个单元结构体
+    // Instantiate a unit structure
     let _unit = Unit;
 
-    // 实例化一个元组结构体
+    // Instantiate a tuple structure
     let pair = Pair(1, 0.1);
 
-    // 访问元组结构体的字段
+    // Access fields of tuple structure
     println!("pair contains {:?} and {:?}", pair.0, pair.1);
 
-    // 解构一个元组结构体
+    // Destructuring a tuple structure
     let Pair(integer, decimal) = pair;
 
     println!("pair contains {:?} and {:?}", integer, decimal);
 
-    // 作业部分
+    // Homework section
     fn rect_area(r: Rectangle) -> f32 {
         let Rectangle {
             top_left: Point { x: top, y: left },

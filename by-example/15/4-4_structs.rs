@@ -1,16 +1,16 @@
-// 一个`Borrowed`类型，含有一个指向`i32`类型的引用
-// 该引用必须比`Borrowed`寿命更长
+// A `Borrowed` type containing a reference to an `i32` type
+// The reference must outlive `Borrowed`
 #[derive(Debug)]
 struct Borrowed<'a>(&'a i32);
 
-// 和前面类似，这里的两个引用都必须比这个结构体长寿
+// Similar to before, both references here must outlive the structure.
 #[derive(Debug)]
 struct NamedBorrowed<'a> {
     x: &'a i32,
     y: &'a i32,
 }
 
-// 一个枚举类型，其取值不是`i32`类型就是一个指向`i32`的引用
+// An enumeration type whose value is either of type `i32` or a reference to `i32`
 #[derive(Debug)]
 enum Either<'a> {
     Num(i32),

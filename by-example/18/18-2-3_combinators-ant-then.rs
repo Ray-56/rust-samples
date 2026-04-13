@@ -3,7 +3,7 @@
 #[derive(Debug)] enum Food { CordonBleu, Steak, Sushi }
 #[derive(Debug)] enum Day { Monday, Tuesday, Wednesday }
 
-// 我们没有制作寿司所需的原材料（ingredient）（有其他的原材料）
+// We don’t have the ingredients needed to make sushi (there are other ingredients)
 fn have_ingredients(food: Food) -> Option<Food> {
     match food {
         Food::Sushi => None,
@@ -11,7 +11,7 @@ fn have_ingredients(food: Food) -> Option<Food> {
     }
 }
 
-// 我们拥有全部食物的食谱，除了法国蓝带猪排（Cordon Bleu）的
+// We have recipes for everything except Cordon Bleu
 fn have_recipe(food: Food) -> Option<Food> {
     match food {
         Food::CordonBleu => None,
@@ -19,8 +19,8 @@ fn have_recipe(food: Food) -> Option<Food> {
     }
 }
 
-// 要做好一份好菜，我们需要原材料和食谱
-// 我们可以借助一系列`match`来表达这个逻辑
+// To make a good dish, we need raw materials and recipes
+// We can express this logic with the help of a series of `match`
 fn cookable_v1(food: Food) -> Option<Food> {
     match have_ingredients(food) {
         None => None,
@@ -31,7 +31,7 @@ fn cookable_v1(food: Food) -> Option<Food> {
     }
 }
 
-// 也可以使用`and_then()`把上面的逻辑改写的更紧凑
+// You can also use `and_then()` to rewrite the above logic more compactly.
 fn cookable_v2(food: Food) -> Option<Food> {
     have_ingredients(food).and_then(have_recipe)
 }

@@ -1,8 +1,8 @@
 fn main() {
-    // 变量绑定
+    // variable binding
     let x = 5;
 
-    // 表达式
+    // expression
     x;
     x + 1;
     15;
@@ -13,12 +13,12 @@ fn main() {
         let x_squared = x * x;
         let x_cube = x_squared * x;
 
-        // 将次表达式赋给`y`
+        // Assign subexpression to `y`
         x_cube + x_squared + x
     };
 
     let z = {
-        // 分号结束了这个表达式，于是将`()`赋给`z`
+        // The semicolon ends the expression, so `()` is assigned to `z`
         2 * x;
     };
 

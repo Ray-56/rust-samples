@@ -36,18 +36,18 @@ const Header: React.FC<HeaderProps> = (props) => {
           const pipContent = document.querySelector("#pip-content");
           const pipWindow = await window.documentPictureInPicture.requestWindow(
             {
-              width: 200, // 设置窗口的宽度
-              height: 300, // 设置窗口的高度
+              width: 200, // Set the width of the window
+              height: 300, // Set the height of the window
             }
           );
 
           const description = document.createElement("div");
           description.textContent =
-            "Picture-in-Picture Window. wait to implement PostMessage";
+            "Picture-in-Picture window. PostMessage support is still pending.";
           pipWindow.document.body.appendChild(description);
           pipWindow.document.body.appendChild(pipContent!.cloneNode(true));
 
-          // 设置 PiP 样式同步
+          // Set up PiP style sync
           [...document.styleSheets].forEach((styleSheet) => {
             try {
               const cssRules = [...styleSheet.cssRules]
@@ -66,7 +66,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             }
           });
 
-          // TODO: 加入 PostMessage 通信
+          // TODO: Add PostMessage communication
         }}
       >
         <PictureInPicture2 />

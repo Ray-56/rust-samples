@@ -3,7 +3,7 @@ use crate::request::RequestBuilder;
 use chrono::{DateTime, Utc};
 use reqwest::header::{HeaderMap, InvalidHeaderValue, AUTHORIZATION, CONTENT_TYPE, DATE};
 
-/// OSS 配置
+/// OSS configuration
 #[derive(Debug, Clone)]
 pub struct OSS {
     key_id: String,

@@ -62,7 +62,7 @@ async fn main() -> std::io::Result<()> {
             .service(account_handler::reset_password_by_username)
             .service(
                 web::scope("")
-                    .wrap(auth) // 受保护的路由
+                    .wrap(auth) // protected route
                     .service(account_handler::update_account)
                     .service(account_handler::get_accounts)
                     .service(account_handler::reset_password)

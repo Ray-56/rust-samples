@@ -1,7 +1,7 @@
 use std::error;
 use std::fmt;
 
-// 为`Box<error::Error>`取别名
+// Aliases `Box<error::Error>`
 type Result<T> = std::result::Result<T, Box<dyn error::Error>>;
 
 #[derive(Debug, Clone)]
@@ -19,17 +19,17 @@ impl error::Error for EmptyVec {
     }
 
     fn cause(&self) -> Option<&dyn error::Error> {
-        // 泛型错误，没有记录其内部原因
+        // Generic error, internal cause not documented
         None
     }
 }
 
 fn double_first(vec: Vec<&str>) -> Result<i32> {
     vec.first()
-        .ok_or_else(|| EmptyVec.into()) // 装箱
+        .ok_or_else(|| EmptyVec.into()) // Packing
         .and_then(|s| {
             s.parse::<i32>()
-                .map_err(|e| e.into()) // 装箱
+                .map_err(|e| e.into()) // Packing
                 .map(|i| 2 * i)
         })
 }

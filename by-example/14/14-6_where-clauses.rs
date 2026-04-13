@@ -4,11 +4,11 @@ trait PrintInOption {
     fn print_in_option(self);
 }
 
-// 这里需要一个`where`从句，否则就要表达成`T:Debug`
+// A `where` clause is required here, otherwise it will be expressed as `T:Debug`
 impl<T> PrintInOption for T where
     Option<T>: Debug {
-    // 我们要将`Option<T>: Debug`作为约束，因为那是要打印的内容
-    // 否则我们会给出错误的约束
+    // We're going to use `Option<T>: Debug` as a constraint because that's what's going to be printed
+    // Otherwise we would be given wrong constraints
     fn print_in_option(self) {
         println!("{:?}", Some(self));
     }

@@ -15,10 +15,10 @@ fn main() {
             println!("Reference Count of rc_b: {}", Rc::strong_count(&rc_b));
             println!("Reference Count of rc_a: {}", Rc::strong_count(&rc_a));
 
-            // 如果两者内部的值相等的话，则两个`Rc`相等
+            // If the internal values ​​​​of the two are equal, then the two `Rc` are equal
             println!("rc_a and rc_b are equal: {}", rc_a.eq(&rc_b));
 
-            // 我们可以直接使用值的方法
+            // We can directly use the value method
             println!("Length of the value inside rc_a: {}", rc_a.len());
             println!("Value of rc_b: {}", rc_b);
 

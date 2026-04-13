@@ -1,5 +1,5 @@
 fn multiply(first_number_str: &str, second_number_str: &str) -> i32 {
-    // 我们试着用`unwrap()`把数字放出来
+    // We try to use `unwrap()` to put the numbers out
     let first_number = first_number_str.parse::<i32>().unwrap();
     let second_number = second_number_str.parse::<i32>().unwrap();
     first_number * second_number

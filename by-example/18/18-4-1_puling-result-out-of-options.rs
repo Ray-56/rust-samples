@@ -16,8 +16,8 @@ fn main() {
     println!("The first doubled is {:?}", double_first(numbers));
 
     println!("The first doubled is {:?}", double_first(empty));
-    // 错误1！：输入 vecotr 为空
+    // Error 1!: Input vecotr is empty
 
     println!("The first doubled is {:?}", double_first(strings));
-    // 错误2！：此元素不能解析成数字
+    // Mistake 2!: This element cannot be parsed as a number
 }

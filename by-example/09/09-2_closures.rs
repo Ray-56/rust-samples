@@ -1,23 +1,23 @@
 fn main() {
-    // 通过闭包和函数分别实现自增
+    // Implement self-increment through closures and functions respectively
 
-    // 使用函数实现
+    // Use functions to implement
     fn function(i: i32) -> i32 { i + 1 }
 
-    // 闭包是匿名的，这里我们将它们绑定到引用
-    // 类型标注和函数的一样，不过类型标注和使用`{}`来围住函数体都是可选的
-    // 这些匿名函数（nameless function）被赋值给合适地命名的变量
+    // Closures are anonymous, here we bind them to references
+    // Type annotations are the same as for functions, but type annotations and the use of `{}` to surround the function body are optional.
+    // These nameless functions are assigned to appropriately named variables
     let closure_annotated = |i: i32| -> i32 { i + 1 };
     let closure_inferred = |i| i + 1;
 
     let i = 1;
-    // 调用函数和闭包
+    // Calling functions and closures
     println!("function: {}", function(i));
     println!("closure_annotated: {}", closure_annotated(i));
     println!("closure_inferred: {}", closure_inferred(i));
 
-    // 没有参数的闭包，返回一个`i32`类型
-    // 返回类型是自动推导的
+    // A closure with no parameters, returning an `i32` type
+    // The return type is automatically deduced
     let one = || 1;
     println!("closure returning one: {}", one());
 }

@@ -23,19 +23,19 @@ use tui::{
 // use crate::common::Message;
 use crate::{human_readable_folder_size, Message, PathItem, PathState};
 
-/// 在路径省略中保留的字符数
+/// Number of characters to keep in path omissions
 const PATH_PRESERVE_WIDTH: usize = 12;
-/// 刷新 UI 的间隔
+/// Interval to refresh UI
 const TICK_INTERVAL: u64 = 100;
-/// 用于带有种类文本和大小文本的单独路径
+/// Separate paths for type text and size text
 const PATH_SEPARATE: &str = " - ";
 /// spinner dots
 const SPINNER_DOTS: [&str; 4] = ["◐", "◓", "◑", "◒"];
-/// 标题或提示
-const TITLE: &str = "用 ↑CURSOR↓ 选择并按 SPACE 键删除";
+/// Title or prompt
+const TITLE: &str = "Use ↑CURSOR↓ to select, then press SPACE to delete";
 
 pub fn run(rx: Receiver<Message>, tx: Sender<Message>) -> Result<()> {
-    // 设置终端
+    // Set up terminal
     enable_raw_mode()?;
     let mut stdout = io::stdout();
     execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
@@ -45,7 +45,7 @@ pub fn run(rx: Receiver<Message>, tx: Sender<Message>) -> Result<()> {
     let app = App::default();
     let res = run_ui(&mut terminal, tx, rx, app);
 
-    // 恢复终端
+    // recovery terminal
     disable_raw_mode()?;
     execute!(
         terminal.backend_mut(),

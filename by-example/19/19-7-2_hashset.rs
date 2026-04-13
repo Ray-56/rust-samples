@@ -7,25 +7,25 @@ fn main() {
     assert!(a.insert(4));
     assert!(a.contains(&4));
 
-    // 如果值已经存在，那么`HashSet::insert()`返回 false
+    // If the value already exists, then `HashSet::insert()` returns false
     // assert!(b.insert(4), "Value 4 is already in set B!");
 
     b.insert(5);
 
-    // 若一个集合（collection）的元素类型实现了`Debug`，那么该集合也就实现了`Debug`
-    // 这通常将元素打印成这样的格式`[elem1, elem2, ...]`
+    // If the element type of a collection implements `Debug`, then the collection also implements `Debug`
+    // This usually prints the elements in the format `[elem1, elem2,...]`
     println!("A: {:?}", a);
     println!("B: {:?}", b);
 
-    // 乱序打印 [1, 2, 3, 4, 5]
+    // Print out of order [1, 2, 3, 4, 5]
     println!("Union: {:?}", a.union(&b).collect::<Vec<&i32>>());
 
-    // 这将会打印出 [1]
+    // This will print out [1]
     println!("Difference: {:?}", a.difference(&b).collect::<Vec<&i32>>());
 
-    // 乱序打印 [2, 3, 4]
+    // Print out of order [2, 3, 4]
     println!("Intersection: {:?}", a.intersection(&b).collect::<Vec<&i32>>());
 
-    // 打印 [1, 5]
+    // print [1, 5]
     println!("Symmetric Difference: {:?}", a.symmetric_difference(&b).collect::<Vec<&i32>>());
 }

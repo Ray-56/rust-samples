@@ -1,17 +1,17 @@
-// 不会`panic!`的整数除法
+// Integer division without `panic!`
 fn checked_division(dividend: i32, divisor: i32) -> Option<i32> {
     if divisor == 0 {
-        // 失败表示成`None`取值
+        // Failure is expressed as `None` value
         None
     } else {
-        // 结果 Result 被包装到`Some`取值中
+        // The result Result is wrapped into the value of `Some`
         Some(dividend / divisor)
     }
 }
 
-// 此函数处理可能失败的除法
+// This function handles divisions that may fail
 fn try_division(dividend: i32, divisor: i32) {
-    // `Option`值可以进行模式匹配，就和其它枚举类型一样
+    // `Option` values ​​can be pattern matched, just like other enumeration types
     match checked_division(dividend, divisor) {
         None => println!("{} / {} failed!", dividend, divisor),
         Some(quotient) => {
@@ -24,15 +24,15 @@ fn main() {
     try_division(4, 2);
     try_division(1, 0);
 
-    // 绑定`None`到一个变量需要类型标注
+    // Binding `None` to a variable requires type annotation
     let none: Option<i32> = None;
     let _equivalent_none = None::<i32>;
 
     let optional_float = Some(0f32);
 
-    // 解包`Some`将取出被包装的值
+    // Unpacking `Some` will take out the wrapped value
     println!("{:?} unwraps to {:?}", optional_float, optional_float.unwrap());
 
-    // 解包`None`将会引发`panic!`
+    // Unpacking `None` will cause `panic!`
     println!("{:?} unwraps to {:?}", none, none.unwrap());
 }

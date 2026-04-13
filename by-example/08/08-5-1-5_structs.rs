@@ -1,18 +1,18 @@
 fn main() {
     struct Foo { x: (u32, u32), y: u32 }
 
-    // 解构结构体的成员
+    // Deconstructing members of a structure
     let foo = Foo { x: (1, 2), y: 3 };
     let Foo { x: (a, b), y } = foo;
 
     println!("a = {}, b = {}, y = {}", a, b, y);
 
-    // 可以解构结构体并重命名变量，成员的顺序不重要
+    // Structures can be destructured and variables renamed, the order of members does not matter
 
     let Foo { y: i, x: j } = foo;
     println!("i = {:?}, j = {:?}", i, j);
 
-    // 也可以忽略某些变量
+    // You can also ignore certain variables
     let Foo { y, .. } = foo;
     println!("y = {}", y);
 }

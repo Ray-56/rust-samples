@@ -10,43 +10,43 @@ fn main() {
     let borrowed_point = &point;
     let another_borrow = &point;
 
-    // 数据可以通过引用或原始类型来访问
+    // Data can be accessed by reference or primitive type
     println!(
         "Point has coordinates: ({}, {}, {})",
         borrowed_point.x, another_borrow.y, point.z
     );
 
-    // 报错！`point`不能以可变方式借用，因为当前还有不可变借用
+    // Report an error! `point` cannot be borrowed mutably because there are currently immutable borrows
     // let mutable_borrow = &mut point;
-    // TODO ^ 试一试去掉此行注释
+    // TODO ^ Try uncommenting this line
 
-    // 被借用的值在这里被重新使用
+    // The borrowed value is reused here
     println!(
         "Point has coordinates: ({}, {}, {})",
         borrowed_point.x, another_borrow.y, point.z
     );
 
-    // 不可变的引用不再用于其余的代码，因此可以使用可变的引用重新借用
+    // The immutable reference is no longer used by the rest of the code, so it can be re-borrowed using a mutable reference
     let mutable_borrow = &mut point;
 
-    // 通过可变引用来修改数据
+    // Modify data through mutable references
     mutable_borrow.x = 5;
     mutable_borrow.y = 2;
     mutable_borrow.z = 1;
 
-    // 报错！不能以不可变方式来借用`point`，因为它当前已被可变借用
+    // Report an error! `point` cannot be borrowed immutably because it is currently borrowed mutably
     // let y = &point.y;
     
-    // 报错！无法打印，因为`println!`用到了一个不可变引用
+    // Report an error! Unable to print because `println!` uses an immutable reference
     // println!("Point Z coordinate is {}", point.z);
 
-    // 正常运行！可变引用能够以不可变类型传入`println!`
+    // Running normally! Mutable references can be passed into `println!` as immutable types
     println!(
         "Point has coordinates: ({}, {}, {})",
         mutable_borrow.x, mutable_borrow.y, mutable_borrow.z,
     );
 
-    // 可变引用不再用于其余代码，因此可以重新借用
+    // The mutable reference is no longer used in the rest of the code, so it can be re-borrowed
     let new_borrowed_point = &point;
     println!(
         "Point now has corrdinates: ({}, {}, {})",

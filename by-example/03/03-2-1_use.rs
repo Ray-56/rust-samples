@@ -1,4 +1,4 @@
-// 该属性用于隐藏对未使用代码的警告
+// This attribute is used to hide warnings about unused code
 #![allow(dead_code)]
 
 enum Status {
@@ -12,24 +12,24 @@ enum Work {
 }
 
 fn main() {
-    // 显示的`use`各个名称使他们直接可用，而不需要指定它们来自`Status`
+    // Exposed `use` names make them directly available without specifying the `Status` they came from
     use Status::{Poor, Rich};
-    // 自动的`use` `Work`内部的各个名称
+    // Automatic `use` `Work` internal names
     use Work::*;
 
-    // `Poor`等价于`Status::Poor`
+    // `Poor` is equivalent to `Status::Poor`
     let status = Poor;
-    // `Civilian`等价于`Work::Civilian`
+    // `Civilian` is equivalent to `Work::Civilian`
     let work = Civilian;
 
     match status {
-        // 注意这里没有用完整路径，因为上面显式地使用了`use`
+        // Note that the full path is not used here because `use` is explicitly used above.
         Rich => println!("The rich have lots of money!"),
         Poor => println!("The poor have no money..."),
     }
 
     match work {
-        // 再次注意到没有用完整路径
+        // Notice again that the full path is not used
         Civilian => println!("Civilians work!"),
         Soldier => println!("Soldiers fight!"),
     }

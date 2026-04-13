@@ -1,28 +1,28 @@
-// 该属性用于隐蔽对未使用代码的警告
+// This attribute is used to hide warnings about unused code
 #![allow(dead_code)]
 
-// 创建一个`enum`（枚举）来对 web 事件分类。注意变量名和类型共同指定了`enum`
-// 取值的种类：`PageLoad`不等于`PageUnload`，`KeyPress(char)`不等于`Paste(String)`。各个取值不同，相互独立
+// Create an `enum` to classify web events. Note that the variable name and type both specify `enum`
+// Type of value: `PageLoad` is not equal to `PageUnload`, `KeyPress(char)` is not equal to `Paste(String)`. Each value is different and independent of each other
 enum WebEvent {
-    // 一个`enum`可以是单元结构体（称为`unit-like`或`unit`）
+    // An `enum` can be a unit structure (called `unit-like` or `unit`)
     PageLoad,
     PageUnload,
-    // 或者一个元组结构体
+    // or a tuple structure
     KeyPress(char),
     Paste(String),
-    // 又或者一个普通的结构体
+    // Or an ordinary structure
     Click { x: i64, y: i64 }
 }
 
-// 此函数将一个`WebEvent`enum 作为参数，无返回值
+// This function takes a `WebEvent`enum as a parameter and has no return value
 fn inspect(event: WebEvent) {
     match event {
         WebEvent::PageLoad => println!("page loaded"),
         WebEvent::PageUnload => println!("page unloaded"),
-        // 从`enum`里解构出`c`
+        // Deconstruct `c` from `enum`
         WebEvent::KeyPress(c) => println!("pressed '{}'.", c),
         WebEvent::Paste(s) => println!("pasted \"{}\".", s),
-        // 把`Click`解构给`x`and`y`
+        // Deconstruct `Click` into `x`and`y`
         WebEvent::Click { x, y } => {
             println!("clicked at x={}, y={}.", x, y);
         },
@@ -31,7 +31,7 @@ fn inspect(event: WebEvent) {
 
 fn main() {
     let pressed = WebEvent::KeyPress('x');
-    // `to_owned()`从一个字符串切片中创建一个具有所有权的`String`
+    // `to_owned()` creates an owned `String` from a slice of strings
     let pasted = WebEvent::Paste("my text".to_owned());
     let click = WebEvent::Click { x: 20, y: 80 };
     let load = WebEvent::PageLoad;

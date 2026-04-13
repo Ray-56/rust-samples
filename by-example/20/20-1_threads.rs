@@ -2,20 +2,20 @@ use std::thread;
 
 static NTHREADS: i32 = 10;
 
-// 这是主（`main`）线程
+// This is the main (`main`) thread
 fn main() {
-    // 提供一个 vector 来存放所创建的子线程（children）
+    // Provide a vector to store the created child threads (children)
     let mut children = vec![];
 
     for i in 0..NTHREADS {
-        // 启动（spin up）另一个线程
+        // Spin up another thread
         children.push(thread::spawn(move || {
             println!("this is thread number {}", i);
         }));
     }
 
     for child in children {
-        // 等线程结束。返回一个结果
+        // Wait for the thread to end. return a result
         let _ = child.join();
     }
 }

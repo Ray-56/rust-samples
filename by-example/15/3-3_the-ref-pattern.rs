@@ -4,7 +4,7 @@ struct Point { x: i32, y: i32 }
 fn main() {
     let c = 'Q';
 
-    // 赋值语句中左边的`ref`关键字等价于右边的`&`符号
+    // The `ref` keyword on the left in the assignment statement is equivalent to the `&` symbol on the right
     let ref ref_c1 = c;
     let ref_c2 = &c;
 
@@ -12,34 +12,34 @@ fn main() {
 
     let point = Point { x: 0, y: 0 };
 
-    // 在解构一个结构体时`ref`同样有效
+    // `ref` also works when destructuring a struct
     let _copy_if_x = {
-        // `ref_to_x`是指向`point`的`x`字段的引用
+        // `ref_to_x` is a reference to the `x` field of `point`
         let Point { x: ref ref_to_x, y: _ } = point;
 
-        // 返回一个`point`的`x`字段的拷贝
+        // Returns a copy of the `x` field of `point`
         *ref_to_x
     };
 
-    // `point`的可变拷贝
+    // mutable copy of `point`
     let mut mutable_point = point;
 
     {
-        // `ref`可以与`mut`结合以创建可变引用
+        // `ref` can be combined with `mut` to create mutable references
         let Point { x: _, y: ref mut mut_ref_to_y } = mutable_point;
 
-        // 通过可变引用来改变`mutable_point`的字段`y`
+        // Change the field `y` of `mutable_point` through a mutable reference
         *mut_ref_to_y = 1;
     }
 
     println!("point is ({}, {})", point.x, point.y);
     println!("mutable_point is ({}, {})", mutable_point.x, mutable_point.y);
 
-    // 包含一个指针的可变元组
+    // mutable tuple containing a pointer
     let mut mutable_tuple = (Box::new(5u32), 3u32);
 
     {
-        // 解构`mutable_tuple`来改变`last`的值
+        // Destructuring `mutable_tuple` to change the value of `last`
         let (_, ref mut last) = mutable_tuple;
         *last = 2u32;
     }

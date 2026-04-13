@@ -1,14 +1,14 @@
 struct Sheep { naked: bool, name: &'static str }
 
 trait Animal {
-    // 静态方法签名：`Self`表示实现者类型（implementor type）
+    // Static method signature: `Self` represents the implementor type (implementor type)
     fn new(name: &'static str) -> Self;
 
-    // 实例方法签名：这些方法将返回一个字符串
+    // Instance method signature: These methods will return a string
     fn name(&self) -> &'static str;
     fn noise(&self) -> &'static str;
 
-    // trait 可以提供默认的方法定义
+    // Traits can provide default method definitions
     fn talk(&self) {
         println!("{} says {}", self.name(), self.noise());
     }
@@ -21,7 +21,7 @@ impl Sheep {
 
     fn shear(&mut self) {
         if self.is_naked() {
-            // 实现者可是使用它的 trait 方法
+            // Implementers can use its trait methods
             println!("{} is already naked...", self.name());
         } else {
             println!("{} gets a haircut!", self.name);
@@ -31,9 +31,9 @@ impl Sheep {
     }
 }
 
-// 对`Sheep`实现`Animal`trait
+// Implement the `Animal` trait on `Sheep`
 impl Animal for Sheep {
-    // `Self`是实现者类型：`Sheep`
+    // `Self` is the implementer type: `Sheep`
     fn new(name: &'static str) -> Sheep {
         Sheep { name: name, naked: false }
     }
@@ -50,17 +50,17 @@ impl Animal for Sheep {
         }
     }
 
-    // 默认 trait 方法可以重载
+    // Default trait methods can be overloaded
     fn talk(&self) {
-        // 例如我们可以增加一些安静的沉思
+        // For example, we can add some quiet contemplation
         println!("{} pauses briefly... {}", self.name, self.noise());
     }
 }
 
 fn main() {
-    // 这种情况需要类型标注
+    // This situation requires type annotation
     let mut dolly: Sheep = Animal::new("Dolly");
-    // 试一试 ^ 移除类型标注
+    // Try it ^ Remove type annotations
 
     dolly.talk();
     dolly.shear();

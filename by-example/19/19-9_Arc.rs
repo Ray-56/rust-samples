@@ -2,15 +2,15 @@ use std::sync::Arc;
 use std::thread;
 
 fn main() {
-    // 这个变量声明用来指定其值的地方
+    // This variable is declared where its value is specified.
     let apple = Arc::new("the same apple");
 
     for _ in 0..10 {
-        // 这里没有数值说明，因为它是一个指向内存堆中引用的指针
+        // There is no numerical specification here because it is a pointer to a reference in the memory heap
         let apple = Arc::clone(&apple);
 
         thread::spawn(move || {
-            // 由于使用了 Arc，线程可以使用分配在`Arc`变量指针位置的值来生成
+            // Due to the use of Arc, the thread can use the value assigned at the pointer position of the `Arc` variable to generate
             println!("{:?}", apple);
         });
     }

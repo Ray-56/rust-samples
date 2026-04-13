@@ -1,13 +1,13 @@
-// 该函数将闭包作为参数并调用它
+// The function takes the closure as a parameter and calls it
 fn apply<F>(f: F)
 where
     F: FnOnce(),
-    // ^ 试一试：将`FnOnce`换成`Fn`或`FnMut`
+    // ^ Try it: Replace `FnOnce` with `Fn` or `FnMut`
 {
     f();
 }
 
-// 输入闭包，返回一个`i32`整型的函数
+// Input closure, return an `i32` integer function
 fn apply_to_3<F>(f: F) -> i32
 where
     F: Fn(i32) -> i32,
@@ -19,30 +19,30 @@ fn main() {
     use std::mem;
 
     let greeting = "hello";
-    // 不可复制的类型
-    // `to_owned`从借用的数据创建有所有权的数据
+    // non-copyable type
+    // `to_owned` creates owned data from borrowed data
     let mut farewell = "goodbye".to_owned();
 
-    // 捕获 2 个变量：通过引用捕获`greeting`，通过值捕获`farewell`
+    // Capture 2 variables: `greeting` by reference, `farewell` by value
     let diary = || {
-        // `greeting`通过引用捕获，故需要闭包是`Fn`
+        // `greeting` is captured by reference, so the closure needs to be `Fn`
         println!("I said {}.", greeting);
 
-        // 下文改变了`farewell`，因而要求闭包通过可变引用来捕获它
-        // 现在需要`FnMut`
+        // The following changes `farewell`, thus requiring the closure to capture it via a mutable reference
+        // Now requires `FnMut`
         farewell.push_str("!!!");
         println!("Then I screamed {}.", farewell);
         println!("Now I can sleep. zzzzzz");
 
-        // 手动调用 drop 又要求闭包通过值获取`farewell`
-        // 现在需要`FnOnce`
+        // Manually calling drop also requires the closure to obtain `farewell` by value
+        // Now requires `FnOnce`
         mem::drop(farewell);
     };
 
-    // 以闭包作为参数，调用函数`apply`
+    // Call the function `apply` with the closure as parameter
     apply(diary);
 
-    // 闭包`double`满足`apply_to_3`的 trait 约束
+    // The closure `double` satisfies the trait constraint of `apply_to_3`
     let double = |x| 2 * x;
     println!("3 doubled: {}", apply_to_3(double));
 }

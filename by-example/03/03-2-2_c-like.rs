@@ -1,14 +1,14 @@
-// 该属性用于隐藏对未使用代码的警告
+// This attribute is used to hide warnings about unused code
 #![allow(dead_code)]
 
-// 拥有隐式辨别值（implicit discriminator，从 0 开始）的 enum
+// enum with implicit discriminator (0-based)
 enum Number {
     Zero,
     One,
     Two,
 }
 
-// 拥有显示辨别值（explicit discriminator）的enum
+// enum with explicit discriminator
 enum Color {
     Red = 0xff0000,
     Green = 0x00ff00,
@@ -16,7 +16,7 @@ enum Color {
 }
 
 fn main() {
-    // `enum`可以转成整型
+    // `enum` can be converted to integer type
     println!("zero is {}", Number::Zero as i32);
     println!("one is {}", Number::One as i32);
 

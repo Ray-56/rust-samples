@@ -21,7 +21,7 @@ fn main() -> Result<(), walkdir::Error> {
     // let current_dir = env::current_dir().unwrap();
     // println!("{:?}", current_dir);
 
-    // 使用 walkdir 获取
+    // Use walkdir to get
     // let walker = WalkDir::new("test").into_iter();
     // for entry in walker.filter_map(|e| e.ok()) {
     //     let path = entry.path().display().to_string();
@@ -38,7 +38,7 @@ fn main() -> Result<(), walkdir::Error> {
     //     println!("{:?}", entry.into_path())
     // }
 
-    // 使用 glob 获取
+    // Use glob to get
     let options = MatchOptions {
         case_sensitive: false,
         require_literal_separator: false,
@@ -90,7 +90,7 @@ fn main() -> Result<(), walkdir::Error> {
 struct Config {
     /// Unix shell style patterns
     pattern: String,
-    /// 是否以扩展名类型展示
+    /// Whether to group the output by extension
     extension: bool,
 }
 impl Config {

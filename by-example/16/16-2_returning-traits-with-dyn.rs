@@ -2,25 +2,25 @@ struct Sheep {}
 struct Cow {}
 
 trait Animal {
-    // 实例方法签名
+    // Instance method signature
     fn noise(&self) -> &'static str;
 }
 
-// 实现`Sheep`的`Animal` trait
+// Implement the `Animal` trait of `Sheep`
 impl Animal for Sheep {
     fn noise(&self) -> &'static str {
         "baaaaah!"
     }
 }
 
-// 实现`Cow`的`Animal` trait
+// Implement the `Animal` trait of `Cow`
 impl Animal for Cow {
     fn noise(&self) -> &'static str {
         "moooooo!"
     }
 }
 
-// 返回一些实现 Animal 的结构体，但是在编译时我们不知道哪个结构体
+// Returns some structure that implements Animal, but at compile time we don't know which structure
 fn random_animal(random_number: f64) -> Box<dyn Animal> {
     if random_number < 0.5 {
         Box::new(Sheep {})

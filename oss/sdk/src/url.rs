@@ -6,18 +6,18 @@ use crate::oss::{API, OSS, OSSInfo};
 use crate::request::{RequestBuilder, RequestType};
 
 pub trait UrlApi: OSSInfo + API {
-  /// 获取签名下载 URL
+  /// Get signature download URL
   /// 
-  /// # 使用例子
+  /// # Usage example
   /// 
   /// ```
   /// 
   /// ```
   fn sign_download_url<S: AsRef<str>>(&self, key: S, build: &RequestBuilder) -> String;
 
-  /// 获取签名上传 URL
+  /// Get signature upload URL
   /// 
-  /// # 使用例子
+  /// # Usage example
   /// 
   /// ```
   /// 

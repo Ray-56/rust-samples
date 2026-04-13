@@ -1,43 +1,43 @@
 use std::ops::Add;
 use std::marker::PhantomData;
 
-/// 创建空枚举类型来表示单位
+/// Create an empty enum type to represent units
 #[derive(Debug, Clone, Copy)]
 enum Inch {}
 #[derive(Debug, Clone, Copy)]
 enum Mm {}
 
-/// `Length`是一个带有序类型参数`Unit`的类型
-/// 而且对于表示长度的类型（即`f641）而言，`Length`不是泛型
+/// `Length` is a type with an ordinal type parameter `Unit`
+/// And `Length` is not generic for types that represent length (i.e. `f641)
 /// 
-/// `f64`已经实现了`Clone`和`Copy`trait
+/// `f64` already implements the `Clone` and `Copy` traits
 #[derive(Debug, Clone, Copy)]
 struct Length<Unit>(f64, PhantomData<Unit>);
 
-/// `Add` trait 定义了`+`运算符的行为
+/// The `Add` trait defines the behavior of the `+` operator
 impl<Unit> Add for Length<Unit> {
     type Output = Length<Unit>;
 
-    // add() 返回一个含有和的新的`Length`结构体
+    // add() returns a new `Length` structure containing the sum
     fn add(self, rhs: Length<Unit>) -> Length<Unit> {
-        // `+`调用了针对`f64`类型的`Add`实现
+        // `+` calls the `Add` implementation for the `f64` type
         Length(self.0 + rhs.0, PhantomData)
     }
 }
 
 fn main() {
-    // 指定`one_foot`拥有虚类型参数`Inch`
+    // Specify that `one_foot` has a virtual type parameter `Inch`
     let one_foot: Length<Inch> = Length(12.0, PhantomData);
-    // `one_meter`拥有虚类型参数`Mm`
+    // `one_meter` has virtual type parameter `Mm`
     let one_meter: Length<Mm> = Length(1000.0, PhantomData);
 
-    // `+`调用了我们对`Length<Unit>`实现的`add()`方法
+    // `+` calls the `add()` method we implemented on `Length<Unit>`
     // 
-    // 由于`Length`实现了`Copy`，`add()`不会消耗`one_foot`和`one_meter`，而是复制了它们作为`self`和`rhs`
+    // Since `Length` implements `Copy`, `add()` does not consume `one_foot` and `one_meter`, but copies them as `self` and `rhs`
     let two_feet = one_foot + one_foot;
     let two_meters = one_meter + one_meter;
 
-    // 加法正常执行
+    // Addition is executed normally
     println!("one foot + one foot = {:?} in", two_feet.0);
     println!("one meter + one meter = {:?} in", two_meters.0);
 }

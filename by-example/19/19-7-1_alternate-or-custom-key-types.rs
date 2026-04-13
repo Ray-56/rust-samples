@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-// Eq 要求你对此类型推导 PartiaEq
+// Eq requires you to derive PartiaEq for this type
 #[derive(PartialEq, Eq, Hash)]
 struct Account<'a> {
     username: &'a str,

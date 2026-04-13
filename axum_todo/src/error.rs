@@ -5,25 +5,25 @@ use axum::{
     response::{IntoResponse, Response},
 };
 
-/// 错误的类型
+/// Application error category
 pub enum AppErrorType {
-    /// 数据库错误
+    /// Database error
     DbType,
-    /// 未找到
+    /// Resource not found
     NotFount,
 }
 
-/// 应用错误
+/// Application error
 pub struct AppError {
-    /// 错误信息
+    /// Error message
     pub message: Option<String>,
-    /// 错误原因（上一级的错误）
+    /// Cause from the previous error level
     pub cause: Option<String>,
-    /// 错误类型
+    /// Error type
     pub error_type: AppErrorType,
 }
 
-/// 实现 IntoResponse
+/// Convert the error into an HTTP response
 impl IntoResponse for AppError {
     // type Body = Full<Bytes>;
     // type BodyError = Infallible;

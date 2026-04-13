@@ -1,27 +1,27 @@
 fn main() {
-    // 此绑定生存于 main 函数中
+    // This binding lives in the main function
     let long_lived_binding = 1;
 
-    // 这是一个代码块，比 main 函数拥有更小的作用域
+    // This is a block of code that has a smaller scope than the main function
     {
-        // 此绑定值存在于本代码块
+        // This binding value exists in this code block
         let short_lived_binding = 2;
 
         println!("inner short: {}", short_lived_binding);
 
-        // 此绑定*遮蔽*了外面的绑定
+        // This binding *shadows* the outer binding
         let long_lived_binding = 5_f32;
 
         println!("inner long: {}", long_lived_binding);
     }
-    // 代码块结束
+    // end of code block
 
-    // 报错！`short_lived_binding`在此作用域上不存在
+    // Report an error! `short_lived_binding` does not exist on this scope
     // println!("outer short: {}", short_lived_binding);
 
     println!("outer long: {}", long_lived_binding);
 
-    // 此绑定同样*遮蔽*了前面的绑定
+    // This binding also *shadows* the previous binding
     let long_lived_binding = 'a';
 
     println!("outer long: {}", long_lived_binding);

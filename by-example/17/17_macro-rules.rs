@@ -1,13 +1,13 @@
-// 这是一个简单的宏，名为`say_hello`
+// This is a simple macro called `say_hello`
 macro_rules! say_hello {
-    // `()`表示此宏不接受任何参数
+    // `()` means this macro does not accept any parameters
     () => {
-        // 此宏将会展开成这个代码块里面的内容
+        // This macro will expand into the contents of this code block
         println!("Hello!");
     };
 }
 
 fn main() {
-    // 这个调用将会展开成`println!("Hello!")`
+    // This call will expand to `println!("Hello!")`
     say_hello!();
 }

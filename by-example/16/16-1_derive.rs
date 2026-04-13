@@ -1,8 +1,8 @@
-// `Centimeters`，可以直接比较的元组结构体
+// `Centimeters`, a tuple structure that can be directly compared
 #[derive(PartialEq, PartialOrd)]
 struct Centimeters(f64);
 
-// `Inches`，可以打印的元组结构体
+// `Inches`, a printable tuple structure
 #[derive(Debug)]
 struct Inches(i32);
 
@@ -14,14 +14,14 @@ impl Inches {
     }
 }
 
-// `Seconds`，不带附加属性的元组结构体
+// `Seconds`, a tuple structure without additional attributes
 struct Seconds(i32);
 
 fn main() {
     let _one_second = Seconds(1);
 
-    // 报错！`Seconds`不能打印；它没有实现`Debug` trait
-    // 报错！`Seconds`不能比较；它没有实现`PartialEq` trait
+    // Report an error! `Seconds` cannot be printed; it does not implement the `Debug` trait
+    // Report an error! `Seconds` cannot be compared; it does not implement the `PartialEq` trait
 
     let foot = Inches(12);
 

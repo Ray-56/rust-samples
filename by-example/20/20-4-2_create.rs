@@ -16,7 +16,7 @@ fn main() {
     let path = Path::new("out/lorem_ipsum.txt");
     let display = path.display();
 
-    // 以只写模式打开文件，返回 `io::Result<File>`
+    // Open the file in write-only mode, returning `io::Result<File>`
     let mut file = match File::create(&path) {
         Err(why) => panic!("couldn't create {}: {}",
                            display,
@@ -24,7 +24,7 @@ fn main() {
         Ok(file) => file,
     };
 
-    // 将 `LOREM_IPSUM` 字符串写进 `file`，返回 `io::Result<()>`
+    // Write the `LOREM_IPSUM` string into `file` and return `io::Result<()>`
     match file.write_all(LOREM_IPSUM.as_bytes()) {
         Err(why) => {
             panic!("couldn't write to {}: {}", display,

@@ -5,7 +5,7 @@ use calamine::DataType;
 
 use crate::{LocaleIndexConf, LocaleRowConf};
 
-/// 解析首行，由`ID`与`zh-CN`关键信息生成语言座标配置(`LocaleIndexConf`)
+/// Parse the first line and generate the language coordinate configuration (`LocaleIndexConf`) from the key information of `ID` and `zh-CN`
 pub fn parse_first_row(row: &[DataType]) -> Vec<LocaleIndexConf> {
     let mut rst: Vec<LocaleIndexConf> = Vec::new();
     let mut should_locale = false;
@@ -31,11 +31,11 @@ pub fn parse_first_row(row: &[DataType]) -> Vec<LocaleIndexConf> {
     return rst;
 }
 
-/// 解析行，返回不同语言的配置(`LocaleRowConf`)
+/// Parse rows and return configurations for different languages ​​(`LocaleRowConf`)
 /// 
 /// example:
 /// ```bash
-/// row_parsed=[LocaleRowConf { lang: "zh-CN", key: "contactManagement.newContact.maxNumber.hint", value: "最多可上传10000名联系人。" }, LocaleRowConf { lang: "en-US", key: "contactManagement.newContact.maxNumber.hint", value: "The maximum number of contacts that can be uploaded is 10,000." }, LocaleRowConf { lang: "es-ES", key: "contactManagement.newContact.maxNumber.hint", value: "El número máximo de contactos que se pueden cargar es de 10.000." }, LocaleRowConf { lang: "id-ID", key: "contactManagement.newContact.maxNumber.hint", value: "Jumlah maksimum kontak yang dapat diunggah adalah 10.000." }, LocaleRowConf { lang: "pt-BR", key: "contactManagement.newContact.maxNumber.hint", value: "O número máximo de contactos que podem ser carregados é de 10.000." }]
+/// row_parsed=[LocaleRowConf {lang: "zh-CN", key: "contactManagement.newContact.maxNumber.hint", value: "The maximum number of contacts that can be uploaded."}, LocaleRowConf {lang: "en-US", key: "contactManagement.newContact.maxNumber.hint", value: "The maximum number of contacts that can be uploaded is 10,000."}, LocaleRowConf {lang: "es-ES", key: "contactManagement.newContact.maxNumber.hint", value: "The number of contacts is 10.000."}, LocaleRowConf {lang: "id-ID", key: "contactManagement.newContact.maxNumber.hint", value: "Jumlah maksimum kontak yang dapat diunggah adalah 10.000."}, LocaleRowConf {lang: "pt-BR", key: "contactManagement.newContact.maxNumber.hint", value: "O número máximo de contactos que podem ser Carregados é de 10.000."}]
 /// ```
 pub fn parse_row(
     row: &[DataType],

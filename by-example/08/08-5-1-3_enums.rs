@@ -1,11 +1,11 @@
-// 需要`allow`来消除警告，因为只使用了枚举类型的一种取值
+// `allow` is needed to suppress the warning because only one value of the enumeration type is used
 #[allow(dead_code)]
 enum Color {
-    // 这三个取值仅由它们的名字（而非类型）来指定
+    // These three values ​​are specified only by their names (not their types)
     Red,
     Blue,
     Green,
-    // 这些则把`u32`元组赋予不同的名字，以色彩模式命名
+    // These give different names to `u32` tuples, named after the color mode
     RGB(u32, u32, u32),
     HSV(u32, u32, u32),
     HSL(u32, u32, u32),
@@ -15,10 +15,10 @@ enum Color {
 
 fn main() {
     let color = Color::RGB(122, 17, 40);
-    // 试一试 ^ 将不同的值赋给`color`
+    // Try it ^ assign different values ​​to `color`
 
     println!("What color is it?");
-    // 可以使用`match`来解构`enum`
+    // You can use `match` to deconstruct `enum`
     match color {
         Color::Red => println!("The color is Red!"),
         Color::Blue => println!("The color is Blue!"),

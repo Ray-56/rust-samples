@@ -1,4 +1,4 @@
-// 将`deep::nested::function`路径绑定到`other_function`
+// Bind `deep::nested::function` path to `other_function`
 use deeply::nested::function as other_function;
 
 fn function() {
@@ -14,17 +14,17 @@ mod deeply {
 }
 
 fn main() {
-    // 更容易访问到`deeply::nested::function`
+    // Easier access to `deeply::nested::function`
     other_function();
 
     println!("Entering block");
     {
-        // 这和`use deeply::nested::function as function`等价
-        // 此`function()`将遮蔽外部的同名函数
+        // This is equivalent to `use deeply::nested::function as function`
+        // This `function()` will shadow the outer function of the same name
         use deeply::nested::function;
         function();
 
-        // `use`绑定拥有局部作用域。这个例子中，`function()`的遮蔽只存在这个代码块中
+        // `use` bindings have local scope. In this example, the shadow of `function()` only exists in this code block
         println!("Leaving block");
     }
 

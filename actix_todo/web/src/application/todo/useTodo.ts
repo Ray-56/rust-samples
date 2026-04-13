@@ -15,8 +15,8 @@ export const useTodo = () => {
   async function createTodo(description: string) {
     try {
       const newTodo = await TodoService.createTodo(description);
-      mutate([...todos, newTodo], false); // 乐观更新
-      // 重新获取数据，与服务器保持一致
+      mutate([...todos, newTodo], false); // Optimistic update
+      // Re-acquire data and keep it consistent with the server
       globalMutate("todos");
     } catch (err) {
       throw new Error("Failed to create todo, err: " + err);
@@ -32,7 +32,7 @@ export const useTodo = () => {
       const newTodos = todos.map((todo) =>
         todo.getId() === id ? updatedTodo : todo
       );
-      mutate(newTodos, false); // 乐观更新
+      mutate(newTodos, false); // Optimistic update
       globalMutate("todos");
     } catch (err) {
       throw new Error("Failed to update todo, err: " + err);
@@ -43,7 +43,7 @@ export const useTodo = () => {
     try {
       await TodoService.deleteTodo(id);
       const newTodos = todos.filter((todo) => todo.getId() !== id);
-      mutate(newTodos, false); // 乐观更新
+      mutate(newTodos, false); // Optimistic update
       globalMutate("todos");
     } catch (err) {
       throw new Error("Failed to delete todo, err: " + err);
@@ -53,7 +53,7 @@ export const useTodo = () => {
   async function reorderTodo(status: TodoDTO["status"]) {
     try {
       const newTodos = await TodoService.reorderTodo(status);
-      mutate(newTodos, false); // 乐观更新
+      mutate(newTodos, false); // Optimistic update
       globalMutate("todos");
     } catch (err) {
       throw new Error("Failed to reorder todo, err: " + err);

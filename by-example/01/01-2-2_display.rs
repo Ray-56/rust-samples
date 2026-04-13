@@ -1,43 +1,43 @@
-// （使用`use`）导入`fmt`模块使`fmt:Display`可用
+// (Use `use`) Import the `fmt` module to make `fmt:Display` available
 use std::fmt;
 
-// 定义一个结构体，咱们会为它实现`fmt::Display`。以下是个简单的元组结构体
-// `Structure`，包含一个`i32`元素
+// Define a structure and we will implement `fmt::Display` for it. The following is a simple tuple structure
+// `Structure`, containing an `i32` element
 struct Structure(i32);
 
-// 为了使`{}`标记，必须手动为类型实现`fmt::Display`trait
+// In order to use the `{}` tag, the `fmt::Display` trait must be manually implemented for the type
 impl fmt::Display for Structure {
-    // 这个 trait 要求`fmt`使用与下面函数完全一致的函数签名
+    // This trait requires `fmt` to use the exact same function signature as the following function
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // 仅将 self 的第一个元素写入到给定的输出流`f`。返回`fmt::Result`，此
-        // 结果表明操作成功或失败。注意`write!`的用法和`println!`很相似
+        // Writes only the first element of self to the given output stream `f`. Returns `fmt::Result`, this
+        // The result indicates the success or failure of the operation. Note that the usage of `write!` is very similar to `println!`
         write!(f, "{}", self.0)
     }
 }
 
-// 带有两个数字的结构体。推导出`Debug`，以便与`Display`的输出进行比较
+// A structure with two numbers. Derive `Debug` for comparison with the output of `Display`
 #[derive(Debug)]
 struct MinMax(i64, i64);
 
-// 实现`MinMax`的`Display`
+// `Display` that implements `MinMax`
 impl fmt::Display for MinMax {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // 使用`self.number`来表示各个数据
+        // Use `self.number` to represent each data
         write!(f, "({}, {})", self.0, self.1)
     }
 }
 
-// 为了比较，顶一个含有具有名字段的结构体
+// For comparison, consider a struct with named fields
 #[derive(Debug)]
 struct Point2D {
     x: f64,
     y: f64,
 }
 
-// 类似地对`Point2D`实现`Display`
+// Similarly implement `Display` for `Point2D`
 impl fmt::Display for Point2D {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        // 自定义格式，使得仅显示`x`和`y`的值
+        // Customize the format so that only the values ​​of `x` and `y` are displayed
         write!(f, "x: {}, y: {}", self.x, self.y)
     }
 }
@@ -79,10 +79,10 @@ fn main() {
     println!("Display: {}", point);
     println!("Debug: {:?}", point);
 
-    // 在上面代码对`Point2D`使用`fmt:Binary`实现
+    // In the above code, `Point2D` is implemented using `fmt:Binary`
     println!("What does Point2D look like in binary: {:b}?", point);
 
-    // 作业部分
+    // Homework section
     let complex = Complex { real: 3.3, imag: 7.2 };
     println!("Compare complexs:");
     println!("Display: {}", complex);

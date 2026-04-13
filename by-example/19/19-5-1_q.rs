@@ -1,5 +1,5 @@
 mod checked {
-    // 我们想要捕获的数学“错误”
+    // Mathematical "errors" we want to catch
     #[derive(Debug)]
     pub enum MathError {
         DivisionByZero,
@@ -11,10 +11,10 @@ mod checked {
 
     pub fn div(x: f64, y: f64) -> MathResult {
         if y == 0.0 {
-            // 此操作将会失败，那么（与其让程序奔溃）不如吧失败的原因包装在`Err`中返回
+            // This operation will fail, so (instead of letting the program crash) it is better to wrap the reason for the failure and return it in `Err`
             Err(MathError::DivisionByZero)
         } else {
-            // 此操作是有效的，返回包装在`Ok`中的结果
+            // This operation is valid, returning the result wrapped in `Ok`
             Ok(x / y)
         }
     }
@@ -35,12 +35,12 @@ mod checked {
         }
     }
 
-    // 中间函数
+    // intermediate function
     fn op_(x: f64, y: f64) -> MathResult {
-        // 如果`div`失败了，那么返回`DivisionByZero`
+        // If `div` fails, then return `DivisionByZero`
         let ratio = div(x, y)?;
 
-        // 如果`ln`失败了，那么返回`NegativeLogarithm`
+        // If `ln` fails, then return `NegativeLogarithm`
         let ln = ln(ratio)?;
 
         sqrt(ln)

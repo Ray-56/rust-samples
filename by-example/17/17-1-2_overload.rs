@@ -1,7 +1,7 @@
-// 根据你调用它的方式，`test!`将以不同的方式来比较`$left`和`$right`
+// Depending on how you call it, `test!` will compare `$left` and `$right` differently
 macro_rules! test {
-    // 参数不需要使用逗号隔开
-    // 参数可以任意组合
+    // Parameters do not need to be separated by commas
+    // Parameters can be combined in any way
     ($left: expr; and $right: expr) => {
         println!(
             "{:?} and {:?} is {:?}",
@@ -10,7 +10,7 @@ macro_rules! test {
             $left && $right
         );
     };
-    // ^ 每个分支都必须以分号结束
+    // ^ Each branch must end with a semicolon
     ($left: expr; or $right: expr) => {
         println!(
             "{:?} or {:?} is {:?}",

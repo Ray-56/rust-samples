@@ -6,7 +6,7 @@ static PANGRAM: &'static str =
 "the quick brown fox jumped over the lazy dog\n";
 
 fn main() {
-    // 启动`wc`命令
+    // Start the `wc` command
     let process = match Command::new("wc")
                                 .stdin(Stdio::piped())
                                 .stdout(Stdio::piped())
@@ -15,17 +15,17 @@ fn main() {
         Ok(process) => process,
     };
 
-    // 将字符串写入`wc`的`stdin`
-    // `stdin`拥有`Option<ChildStdin>`类型，不过我们已经知道这个实例不为空值，因而可以直接`unwrap`它
+    // Write a string to `stdin` of `wc`
+    // `stdin` has type `Option<ChildStdin>`, but we already know that this instance is not null, so we can directly `unwrap` it
     match process.stdin.unwrap().write_all(PANGRAM.as_bytes()) {
         Err(why) => panic!("couldn't write to wc stdin: {}", why.description()),
         Ok(_) => println!("sent pangram to wc"),
     }
 
-    // 因为`stdin`在上面调用后就不再存活，所以它被`drop`了，管道也被关闭
-    // 这点非常重要，否则`wc`就不会开始处理我们刚刚发送的输入
+    // Because `stdin` is no longer alive after the above call, it is `dropped` and the pipe is closed.
+    // This is very important, otherwise `wc` won’t start processing the input we just sent
 
-    // `stdout`字段也拥有`Option<ChildStdout>`类型，所以必须解包
+    // The `stdout` field also has type `Option<ChildStdout>`, so it must be unpacked
     let mut s = String::new();
     match process.stdout.unwrap().read_to_string(&mut s) {
         Err(why) => panic!("couldn't read wc stdout: {}", why.description()),

@@ -1,44 +1,44 @@
 fn main() {
-    // 迭代器可以被收集到 vector 中
+    // Iterators can be collected into vectors
     let collected_iterator: Vec<i32> = (0..10).collect();
     println!("Collected (0..10) into: {:?}", collected_iterator);
 
-    // `vec!`宏可以用来初始化一个 vector
+    // The `vec!` macro can be used to initialize a vector
     let mut xs = vec![1i32, 2, 3];
     println!("Initial vector: {:?}", xs);
 
-    // 在 vector 的尾部插入一个新的元素
+    // Insert a new element at the end of the vector
     println!("Push 4 into the vector");
     xs.push(4);
     println!("Vector: {:?}", xs);
 
-    // 报错！不可变 vector 不可增长
+    // Report an error! Immutable vector cannot grow
     // collected_iterator.push(0);
 
-    // `len`方法获得一个 vector 的当前大小
+    // The `len` method gets the current size of a vector
     println!("Vector size: {}", xs.len());
 
-    // 下标使用中括号表示（从 0 开始）
+    // Subscripts are expressed using square brackets (starting from 0)
     println!("Second element: {}", xs[1]);
 
-    // `pop`移除 vector 的最后一个元素并将它返回
+    // `pop` removes the last element of vector and returns it
     println!("Pop last element: {:?}", xs.pop());
 
-    // 超出下标范围将抛出一个 panic
+    // Exceeding the index range will throw a panic
     // println!("Fourth element: {}", xs[3]);
 
-    // 抛出一个`Vector`很容易
+    // Throwing a `Vector` is easy
     println!("Contents of xs:");
     for x in xs.iter() {
         println!("> {}", x);
     }
 
-    // 可以在迭代`Vector`的同时，使用独立变量（`i`）来记录迭代次数
+    // You can use an independent variable (`i`) to record the number of iterations while iterating `Vector`
     for (i, x) in xs.iter().enumerate() {
         println!("In position {} we have value {}", i, x);
     }
 
-    // 多亏了`iter_mut`，可变的`Vector`在迭代的同时，其中每个值都被被修改
+    // Thanks to `iter_mut`, a mutable `Vector` has each value modified while iterating
     for x in xs.iter_mut() {
         *x *= 3;
     }

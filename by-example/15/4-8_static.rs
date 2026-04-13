@@ -1,26 +1,26 @@
-// 产生一个拥有`'static`生命周期的常量
+// Generate a constant with `'static` lifetime
 static NUM: i32 = 18;
 
-// 返回一个指向`NUM`的引用，该引用不取`NUM`的`'static`生命周期
-// 而是被强制转换成和输入参数的一样
+// Returns a reference to `NUM`, which does not take the `static` lifetime of `NUM`
+// Instead, it is forced to be the same as the input parameter.
 fn coerce_static<'a>(_: &'a i32) -> &'a i32 {
     &NUM
 }
 
 fn main() {
     {
-        // 产生一个`string`字面量并打印它
+        // Produce a `string` literal and print it
         let static_string = "I'm in read-only memory";
         println!("static_string: {}", static_string);
 
-        // 当`static_string`离开作用域时，该引用不能再使用，不过数据仍然存在于二进制文件里
+        // When `static_string` goes out of scope, the reference can no longer be used, but the data still exists in the binary file
     }
 
     {
-        // 产生一个整型给`coerce_static`使用
+        // Generate an integer for use by `coerce_static`
         let lifetime_num = 9;
 
-        // 将对`NUM`的引用强制转换成`lifetime_num`的生命周期
+        // Cast a reference to `NUM` to the lifetime of `lifetime_num`
         let coerced_static = coerce_static(&lifetime_num);
 
         println!("coerced_static: {}", coerced_static);

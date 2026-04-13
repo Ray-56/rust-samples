@@ -1,29 +1,29 @@
-// `print_refs`接受两个`i32`的引用，它们有不同的生命周期`'a`和`'b`
-// 这两个生命周期都必须至少要和`print_refs`函数一样长
+// `print_refs` accepts two `i32` references, which have different lifetimes `'a` and `'b`
+// Both lifetimes must be at least as long as the `print_refs` function
 fn print_refs<'a, 'b>(x: &'a i32, y: &'b i32) {
     println!("x is {} and y is {}", x, y);
 }
 
-// 不带参数的函数，不过有一个生命周期参数`'a`
+// A function without parameters, but with a lifetime parameter `'a`
 fn failed_borrow<'a>() {
     let _x = 12;
 
-    // 报错！`_x`的生命周期不够长
+    // Report an error! The life cycle of `_x` is not long enough
     // let y: &'a i32 = &_x;
-    // 在函数内部使用生命周期`'a`作为显示类型标注将导致失败
-    // 因为`&_x`的生命周期比`y`的短。短生命周期不能强制转换成长生命周期
+    // Using lifetime `'a` as an explicit type annotation inside a function will cause failure
+    // Because the life cycle of `&_x` is shorter than that of `y`. Short life cycle cannot be forced to convert to long life cycle
 }
 
 fn main() {
-    // 创建变量，稍后用于借用
+    // Create variables for later borrowing
     let (four, nine) = (4, 9);
 
-    // 两个变量的借用（`&`）都传进函数
+    // Borrowing (`&`) of both variables is passed into the function
     print_refs(&four, &nine);
-    // 任何被借用的输入量都必须比借用者生存得更长
-    // 也就是说，`four`和`nine`的生命周期都必须比`print_refs`的长
+    // Any borrowed input must outlive the borrower
+    // In other words, the life cycles of `four` and `nine` must be longer than `print_refs`
 
     failed_borrow();
-    // `failed_borrow`未包含引用，因此不要求`'a`长于函数的生命周期
-    // 但`'a`寿命确实更长。因为该生命周期从未被约束，所以默认为`'static`
+    // `failed_borrow` does not contain a reference, so `a` is not required to outlast the lifetime of the function
+    // But `a` does have a longer lifespan. Because the life cycle has never been constrained, it defaults to `'static`
 }

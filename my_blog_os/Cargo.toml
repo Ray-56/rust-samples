@@ -2,13 +2,13 @@
 name = "my_blog_os"
 version = "0.1.0"
 
-# # 使用`cargo build`编译时需要的配置
+# # Configuration required when compiling using `cargo build`
 # [profile.dev]
-# panic = "abort" # 禁用 panic 时栈展开
+# panic = "abort" # Disable panic when stack unwinding
 
-# # 使用`cargo build --release`编译时需要的配置
+# # Configuration required when compiling using `cargo build --release`
 # [profile.release]
-# panic = "abort" # 禁用 panic 时栈展开
+# panic = "abort" # Disable panic when stack unwinding
 
 [package.metadata.bootimage]
 build-command = ["xbuild"]

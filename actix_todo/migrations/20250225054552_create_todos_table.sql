@@ -10,7 +10,7 @@ CREATE TABLE todos (
     deleted_at TIMESTAMPTZ NULL
 );
 
--- 创建触发器函数，用于更新 updated_at 字段
+-- Create a trigger function to update the updated_at field
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -19,7 +19,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 为 todos 表创建触发器
+-- Create a trigger for the todos table
 CREATE TRIGGER set_updated_at
 BEFORE UPDATE ON todos
 FOR EACH ROW

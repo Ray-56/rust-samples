@@ -14,10 +14,10 @@ struct PhoneNumber {
 }
 
 impl Person {
-    // 获取此人的工作电话号码的区号（如果存在的话）
+    // Get the area code of this person's work phone number, if one exists
     fn work_phone_area_code(&self) -> Option<u8> {
-        // 没有`?`运算符的话，这将需要很多嵌套的`match`语句
-        // 这将需要更多代码--尝试自己编写一下，看看哪个容易
+        // Without the `?` operator, this would require many nested `match` statements
+        // This will require more code - try writing it yourself and see which one is easier
         self.job?.phone_number?.area_code
     }
 }

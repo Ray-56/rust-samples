@@ -33,7 +33,7 @@ use crate::interfaces::{account_handler, auth_handler, todo_handler};
 )]
 pub struct ApiDoc;
 
-// 自定义 OpenAPI 修改器，添加 securitySchemes
+// Custom OpenAPI modifier, add securitySchemes
 struct SecurityAddon;
 
 impl utoipa::Modify for SecurityAddon {

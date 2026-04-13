@@ -1,5 +1,5 @@
 mod checked {
-    // 我们想要捕获的数学“错误”
+    // Mathematical "errors" we want to catch
     #[derive(Debug)]
     pub enum MathError {
         DivisionByZero,
@@ -11,10 +11,10 @@ mod checked {
 
     pub fn div(x: f64, y: f64) -> MathResult {
         if y == 0.0 {
-            // 此操作将会失败，那么（与其让程序奔溃）不如吧失败的原因包装在`Err`中返回
+            // This operation will fail, so (instead of letting the program crash) it is better to wrap the reason for the failure and return it in `Err`
             Err(MathError::DivisionByZero)
         } else {
-            // 此操作是有效的，返回包装在`Ok`中的结果
+            // This operation is valid, returning the result wrapped in `Ok`
             Ok(x / y)
         }
     }
@@ -38,7 +38,7 @@ mod checked {
 
 // `op(x, y)` === `sqrt(ln(x / y))`
 fn op(x: f64, y: f64) -> f64 {
-    // 这是一个三层的 match 金字塔
+    // This is a three-level match pyramid
     match checked::div(x, y) {
         Err(why) => panic!("{:?}", why),
         Ok(ratio) => match checked::ln(ratio) {

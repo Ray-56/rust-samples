@@ -8,7 +8,7 @@ impl Years {
 }
 
 impl Days {
-    /// 舍去不满一年的部分
+    /// Discard the part that is less than one year old
     pub fn to_years(&self) -> Years {
         Years(self.0 / 365)
     }

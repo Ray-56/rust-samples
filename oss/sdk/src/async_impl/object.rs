@@ -54,10 +54,10 @@ impl OSS {
             success_action_status.to_string().as_str(),
             1
         );
-        json_data = json_data.replacen("{prefix}", &build.upload_dir, 1); // 只允许上传到哪个目录上
+        json_data = json_data.replacen("{prefix}", &build.upload_dir, 1); // Restrict uploads to this directory
         // text file
         json_data = json_data.replacen("{content_type}", &build.content_type, 1);
-        // 只允许上传哪个类型的文件
+        // Restrict which file types can be uploaded
         debug!("oss log: policy json: {}", json_data);
         let base64_policy = util::base64_encode(json_data.as_bytes());
         let mut hasher: Hmac<sha1::Sha1> = Hmac::new_from_slice(self.key_secret().as_bytes())
@@ -73,7 +73,7 @@ impl OSS {
         })
     }
 
-    /// 上传文件（本地文件）
+    /// Upload a file (local file)
     pub async fn put_object_from_file<S: AsRef<str>>(
         &self,
         key: S,
@@ -106,7 +106,7 @@ impl OSS {
         };
     }
 
-    /// 上传文件（内存）
+    /// Upload a file (in-memory)
     pub async fn put_object_from_buffer<S: AsRef<str>>(
         &self,
         key: S,
@@ -140,7 +140,7 @@ impl OSS {
         }
     }
 
-    /// 删除文件
+    /// Delete a file
     pub async fn delete_object<S: AsRef<str>>(
         &self,
         key: S,

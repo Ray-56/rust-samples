@@ -1,15 +1,15 @@
 macro_rules! create_function {
-    // 此宏接受一个`ident`指示符表示的参数，并创建一个名为`$func_name`的函数
-    // `ident`指示符用于变量名或函数名
+    // This macro accepts an argument represented by the `ident` directive and creates a function named `$func_name`
+    // The `ident` directive is used for variable or function names
     ($func_name: ident) => {
         fn $func_name() {
-            // `stringify!`宏把`ident`转换成字符串
+            // The `stringify!` macro converts `ident` into a string
             println!("You called {:?}()", stringify!($func_name))
         }
     };
 }
 
-// 借助上述宏来创建名为`foo`和`bar`的函数
+// Create functions named `foo` and `bar` with the help of the above macros
 create_function!(foo);
 create_function!(bar);
 
@@ -25,7 +25,7 @@ fn main() {
 
     print_result!(1u32 + 1);
 
-    // 回想一下，代码块也是表达式
+    // Recall that code blocks are also expressions
     print_result!({
         let x = 1u32;
 

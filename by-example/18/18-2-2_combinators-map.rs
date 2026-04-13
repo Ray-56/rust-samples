@@ -11,7 +11,7 @@ enum Food {
 #[derive(Debug)] struct Chopped(Food);
 #[derive(Debug)] struct Cooked(Food);
 
-// 削皮。如果没有食物，就返回`None`。否则返回削好皮的食物
+// peel. If there is no food, return `None`. Otherwise return the peeled food
 fn peel(food: Option<Food>) -> Option<Peeled> {
     match food {
         Some(food) => Some(Peeled(food)),
@@ -19,7 +19,7 @@ fn peel(food: Option<Food>) -> Option<Peeled> {
     }
 }
 
-// 切食物。如果没有食物就返回`None`。否则就返回切好的食物
+// Cut food. Returns `None` if there is no food. Otherwise return the cut food
 fn chop(peeled: Option<Peeled>) -> Option<Chopped> {
     match peeled {
         Some(Peeled(food)) => Some(Chopped(food)),
@@ -27,19 +27,19 @@ fn chop(peeled: Option<Peeled>) -> Option<Chopped> {
     }
 }
 
-// 烹饪食物。这里我们使用`map()`来替代`match`以处理各种情况
+// Cooking food. Here we use `map()` instead of `match` to handle various situations
 fn cook(chopped: Option<Chopped>) -> Option<Cooked> {
     chopped.map(|Chopped(food)| Cooked(food))
 }
 
-// 这个函数会完成削皮切块烹饪一条龙。使用`map()`串起来，以简化代码
+// This function will complete the process of peeling, cutting and cooking. Use `map()` to string together to simplify the code
 fn process(food: Option<Food>) -> Option<Cooked> {
     food.map(|f| Peeled(f))
         .map(|Peeled(f)| Chopped(f))
         .map(|Chopped(f)| Cooked(f))
 }
 
-// 在尝试吃食物之前确认食物是否存在，是非常重要的
+// It is very important to confirm the presence of food before trying to eat it
 fn eat(food: Option<Cooked>) {
     match food {
         Some(food) => println!("Mmm. I love {:?}", food),
@@ -55,7 +55,7 @@ fn main() {
     let cooked_apple = cook(chop(peel(apple)));
     let cooked_carrot = cook(chop(peel(carrot)));
 
-    // 现在让我们试试看起来更简单的`process()`
+    // Now let's try the simpler looking `process()`
     let cooked_potato = process(potato);
 
     eat(cooked_apple);

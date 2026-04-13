@@ -48,8 +48,8 @@ Your Excel/CSV file must follow this structure:
 
 | ID | zh-CN | en-US | es-ES | ... |
 |----|-------|-------|-------|-----|
-| app.title | 应用标题 | App Title | Título | ... |
-| app.welcome | 欢迎 | Welcome | Bienvenido | ... |
+| app.title | App Title | App Title | Título |... |
+| app.welcome | Welcome | Welcome | Bienvenido |... |
 
 **Requirements:**
 1. First column must be named `ID` (case-sensitive)

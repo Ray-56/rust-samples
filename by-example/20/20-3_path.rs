@@ -1,16 +1,16 @@
 use std::path::Path;
 
 fn main() {
-    // 从`&'static str`创建一个`Path`
+    // Create a `Path` from `&'static str`
     let path = Path::new(".");
 
-    // `display`方法返回一个可显示（showable）的结构体
+    // The `display` method returns a showable structure
     let display = path.display();
 
-    // `join`使用操作系统特定的分隔符来合并路径到字节容器，并返回新的路径
+    // `join` merges paths into bytes containers using operating system specific delimiters and returns the new path
     let new_path = path.join("a").join("b");
 
-    // 将路径转换成一个字符切片
+    // Convert path into a character slice
     match new_path.to_str() {
         None => panic!("new path is not a valid UTF-8 sequence"),
         Some(s) => println!("new path is {}", s),

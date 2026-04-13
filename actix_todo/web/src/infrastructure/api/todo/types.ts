@@ -1,5 +1,5 @@
 /**
- * @deprecated 由于和 TodoDTO 一致，暂时不使用，后期如果 API 返回的数据和 TodoDTO 不一致，则可以使用。如果使用则需要在 TodoService.createTodo 中与 TodoDTO 进行转换
+ * @deprecated is not used temporarily because it is consistent with TodoDTO. It can be used later if the data returned by the API is inconsistent with TodoDTO. If used, it needs to be converted with TodoDTO in TodoService.createTodo
  */
 export interface TodoApiDatum {}
 

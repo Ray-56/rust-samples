@@ -1,7 +1,7 @@
 macro_rules! calculate {
     (eval $e: expr) => {{
         {
-            let val: usize = $e; // 强制类型为整型
+            let val: usize = $e; // Force type to integer
             println!("{} = {}", stringify!($e), val);
         }
     }};
@@ -9,7 +9,7 @@ macro_rules! calculate {
 
 fn main() {
     calculate! {
-        eval 1 + 2 // 看到了吧，`eval`可并不是 Rust 的关键字
+        eval 1 + 2 // You see, `eval` is not a keyword in Rust
     }
 
     calculate! {

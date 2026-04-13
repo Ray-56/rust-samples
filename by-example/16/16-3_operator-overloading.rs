@@ -9,9 +9,9 @@ struct FooBar;
 #[derive(Debug)]
 struct BarFoo;
 
-// `std::ops::Add` trait 用来指明`+`的功能，这里我们实现`Add<Bar>`，它是用于
-// 把对象和`Bar`类型的右操作数（RHS）加起来的`trait`
-// 下面的代码块实现了`Foo + Bar = FooBar`这样的运算
+// The `std::ops::Add` trait is used to specify the function of `+`. Here we implement `Add<Bar>`, which is used
+// `trait` that adds an object and a right operand (RHS) of type `Bar`
+// The following code block implements the operation `Foo + Bar = FooBar`
 impl ops::Add<Bar> for Foo {
     type Output = FooBar;
 
@@ -22,9 +22,9 @@ impl ops::Add<Bar> for Foo {
     }
 }
 
-// 通过颠倒类型，我们实现了不服从交换律的加法
-// 这里我们实现`Add<Foo>`，它是用于把对象和`Foo`类型的右操作数加起来的 trait
-// 下面的代码块实现了`Bar + Foo = BarFoo`这样的运算
+// By reversing the types, we achieve addition that does not obey commutativity
+// Here we implement `Add<Foo>`, which is a trait used to add objects and right operands of type `Foo`
+// The following code block implements the operation `Bar + Foo = BarFoo`
 impl ops::Add<Foo> for Bar {
     type Output = BarFoo;
 

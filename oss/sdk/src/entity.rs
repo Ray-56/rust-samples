@@ -14,7 +14,7 @@ unsafe impl Send for PolicyResp {}
 
 unsafe impl Sync for PolicyResp {}
 
-/// Policy 构建器
+/// Policy builder
 #[derive(Debug, Clone)]
 pub struct PolicyBuilder {
     pub expire: Seconds,

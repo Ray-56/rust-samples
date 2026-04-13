@@ -3,15 +3,15 @@ fn main() {
 
     println!("immutable_box contains {}", immutable_box);
 
-    // 可变性错误
+    // variability error
     // *immutable_box = 4;
 
-    // *移动* box，改变所有权（和可变性）
+    // *move* the box, change ownership (and mutability)
     let mut mutable_box = immutable_box;
 
     println!("mutable_box contains {}", mutable_box);
 
-    // 修改 box 的内容
+    // Modify the contents of the box
     *mutable_box = 4;
 
     println!("mutable_box now contains {}", mutable_box);

@@ -21,9 +21,9 @@ use uuid::Uuid;
 
 #[tokio::main]
 async fn main() {
-    // 解析 .env 文件
+    // Parse.env files
     // dotenv().ok();
-    // let cfg = config::Config::from_env().expect("初始化配置失败");
+    // let cfg = config::Config::from_env().expect("Initialization configuration failed");
     // println!("{:?}", cfg);
 
     tracing_subscriber::registry()

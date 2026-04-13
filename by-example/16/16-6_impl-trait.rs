@@ -1,8 +1,8 @@
 use std::iter;
 use std::vec::IntoIter;
 
-// 该函数组合了两个`Vec<i32>`并在其上返回一个迭代器
-// 看看它的返回类型多么复杂
+// This function combines two `Vec<i32>` and returns an iterator over them
+// Look at how complex its return type is
 fn combine_vecs_explicit_return_type(
     v: Vec<i32>,
     u: Vec<i32>,
@@ -10,8 +10,8 @@ fn combine_vecs_explicit_return_type(
     v.into_iter().chain(u.into_iter()).cycle()
 }
 
-// 这是完全相同的函数，但其返回类型使用`impl Trait`
-// 看看它多么简单
+// This is the exact same function, but its return type uses `impl Trait`
+// look how simple it is
 fn combine_vecs(
     v: Vec<i32>,
     u: Vec<i32>,

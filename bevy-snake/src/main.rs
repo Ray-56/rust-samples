@@ -149,10 +149,10 @@ fn snake_movement(
             || head_pos.x as u32 >= ARENA_WIDTH
             || head_pos.y as u32 >= ARENA_HEIGHT
         {
-            game_over_writer.send(GameOverEvent); // 边界
+            game_over_writer.send(GameOverEvent); // boundary
         }
         if segment_positions.contains(&head_pos) {
-            game_over_writer.send(GameOverEvent); // 蛇身体
+            game_over_writer.send(GameOverEvent); // snake body
         }
         segment_positions
             .iter()
@@ -292,7 +292,7 @@ fn main() {
         )
         .add_system_set(
             SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(0.250)) // 执行频率
+                .with_run_criteria(FixedTimestep::step(0.250)) // execution frequency
                 .with_system(snake_movement.label(SnakeMovement::Movement))
                 .with_system(
                     snake_eating
@@ -308,7 +308,7 @@ fn main() {
         .add_system(game_over.after(SnakeMovement::Movement))
         .add_system_set(
             SystemSet::new()
-                .with_run_criteria(FixedTimestep::step(1.0)) // 食物出现的频率
+                .with_run_criteria(FixedTimestep::step(1.0)) // food spawn frequency
                 .with_system(food_spawner),
         )
         .add_system_set_to_stage(

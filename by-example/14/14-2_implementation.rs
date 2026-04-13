@@ -6,12 +6,12 @@ struct GenVal<T> {
     gen_val: T
 }
 
-// `Val`的`impl`
+// `impl` of `Val`
 impl Val {
     fn value(&self) -> &f64 { &self.val }
 }
 
-// GenVal 的`imple`，指定`T`就是泛型类型
+// GenVal's `imple`, specifying `T` is a generic type
 impl <T> GenVal<T> {
     fn value(&self) -> &T { &self.gen_val }
 }

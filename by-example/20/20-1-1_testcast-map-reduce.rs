@@ -1,12 +1,12 @@
 use std::thread;
 
-// 这是`main`线程
+// This is the `main` thread
 fn main() {
-        // 这是我们要处理的数据。
-    // 我们会通过线程实现 map-reduce 算法，从而计算每一位的和
-    // 每个用空白符隔开的块都会分配给单独的线程来处理
+        // This is the data we want to work with.
+    // We will implement the map-reduce algorithm through threads to calculate the sum of each bit
+    // Each whitespace-delimited block is assigned to a separate thread for processing
     //
-    // 试一试：插入空格，看看输出会怎样变化！
+    // Give it a try: insert spaces and see how the output changes!
     let data = "86967897737416471853297327050364959
 11861322575564723963297542624962850
 70856234701860851907960690014725639
@@ -16,78 +16,78 @@ fn main() {
 69920216438980873548808413720956532
 16278424637452589860345374828574668";
 
-    // 创建一个响亮，用于储存将要创建的子线程
+    // Create a loudspeaker to store the sub-thread to be created
     let mut children = vec![];
 
     /*************************************************************************
-     * "Map" 阶段
+     * "Map" stage
      *
-     * 把数据分段，并进行初始化处理
+     * Segment the data and perform initialization processing
      ************************************************************************/
 
-    // 把数据分段，每段将会单独计算
-    // 每段都是完整数据的一个引用（&str）
+    // Divide the data into segments, each segment will be calculated separately
+    // Each segment is a reference (&str) to the complete data
     let chunked_data = data.split_whitespace();
 
-    // 对分段的数据进行迭代
-    // .enumerate() 会把当前的迭代计数与被迭代的元素以元组 (index, element)
-    // 的形式返回。借着立即使用“解构赋值”将该元组解构成两个变量
-    // `i`和`data_segment`
+    // Iterate over segmented data
+    // .enumerate() will combine the current iteration count and the iterated element into a tuple (index, element)
+    // return in the form. Deconstruct the tuple into two variables by immediately using "destructuring assignment"
+    // `i` and `data_segment`
     for (i, data_segment) in chunked_data.enumerate() {
         println!("data segment {} is \"{}\"", i, data_segment);
 
-        // 用单独的线程处理每一段数据
+        // Use a separate thread to process each piece of data
         //
-        // spawn() 返回新线程的句柄（handle），我们必须拥有句柄，
-        // 才能获取线程的返回值。
+        // spawn() returns the handle of the new thread, we must have the handle,
+        // To get the return value of the thread.
         //
-        // 'move || -> u32' 语法表示该闭包：
-        // * 没有参数（'||'）
-        // * 会获取所捕获变量的所有权（'move'）
-        // * 返回无符号 32 位整数（'-> u32'）
+        // The 'move || -> u32' syntax represents this closure:
+        // * No parameters ('||')
+        // * Will take ownership of the captured variable ('move')
+        // * Returns an unsigned 32-bit integer ('->u32')
         //
-        // Rust 可以根据闭包的内容推断出 '-> u32'，所以我们可以不写它。
+        // Rust can infer '-> u32' from the contents of the closure, so we don't need to write it.
         //
-        // 试一试：删除 'move'，看看会发生什么
+        // Give it a try: remove 'move' and see what happens
         children.push(thread::spawn(move || -> u32 {
-            // 计算该段的每一位的和：
+            // Calculate the sum of each bit of the segment:
             let result = data_segment
-                        // 对该段中的字符进行迭代..
+                        // Iterate over the characters in this segment..
                         .chars()
-                        // ..把字符转成数字..
+                        // ..Convert characters to numbers..
                         .map(|c| c.to_digit(10).expect("should be a digit"))
-                        // ..对返回的数字类型的迭代器求和
+                        // ..sums the returned iterator of numeric types
                         .sum();
 
-            // println! 会锁住标准输出，这样各线程打印的内容不会交错在一起
+            // println! will lock the standard output so that the contents printed by each thread are not interleaved.
             println!("processed segment {}, result={}", i, result);
 
-            // 不需要 “return”，因为 Rust 是一种 “表达式语言”，每个代码块中
-            // 最后求值的表达式就是代码块的值。
+            // There is no need for "return" because Rust is an "expression language" and in each block of code
+            // The last evaluated expression is the value of the code block.
             result
 
         }));
     }
 
     /*************************************************************************
-     * "Reduce" 阶段
+     * "Reduce" phase
      *
-     * 收集中间结果，得出最终结果
+     * Collect intermediate results to get the final result
      ************************************************************************/
 
-    // 把每个线程产生的中间结果收入一个新的向量中
+    // Collect the intermediate results produced by each thread into a new vector
     let mut intermediate_sums = vec![];
     for child in children {
-        // 收集每个子线程的返回值
+        // Collect the return value of each child thread
         let intermediate_sum = child.join().unwrap();
         intermediate_sums.push(intermediate_sum);
     }
 
-    // 把所有中间结果加起来，得到最终结果
+    // Add up all intermediate results to get the final result
     //
-    // 我们用 “涡轮鱼” 写法 ::<> 来为 sum() 提供类型提示。
+    // We use the "turbo fish" notation::<> to provide type hints for sum().
     //
-    // 试一试：不使用涡轮鱼写法，而是显式地指定 intermediate_sums 的类型
+    // Give it a try: Instead of using the turbine fish notation, explicitly specify the type of intermediate_sums
     let final_result = intermediate_sums.iter().sum::<u32>();
 
     println!("Final sum result: {}", final_result)

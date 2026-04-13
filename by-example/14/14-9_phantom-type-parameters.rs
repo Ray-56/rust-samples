@@ -1,34 +1,34 @@
 use std::marker::PhantomData;
 
-// 这个虚无组结构体对`A`是泛型的，并且带有隐藏参数`B`
-#[derive(PartialEq)] // 允许这种类型进行相等测试（equality test）
+// This void group structure is generic to `A` and has a hidden parameter `B`
+#[derive(PartialEq)] // Allow equality tests for this type
 struct PhantomTuple<A, B>(A, PhantomData<B>);
 
-// 这个虚伪类型结构体对`A`是泛型的，并且带有隐藏参数`B`
+// This fake type struct is generic to `A` and has a hidden parameter `B`
 #[derive(PartialEq)]
 struct PhantomStruct<A, B> { first: A, phantom: PhantomData<B> }
 
-// 注意：对于泛型`A`会分配存储空间，但`B`不会
-//      因此，`B`不能参与运算
+// Note: Storage space will be allocated for generic `A`, but not for `B`
+// Therefore, `B` cannot participate in the operation
 
 fn main() {
-    // 这里的`f32`和`f64`是隐藏参数
-    // 被指定为`<char, f32>`的`PhantomTuple`类型
+    // `f32` and `f64` here are hidden parameters
+    // `PhantomTuple` type specified as `<char, f32>`
     let _tuple1: PhantomTuple<char, f32> = PhantomTuple('Q', PhantomData);
-    // 被指定为`<char, f64>``PhantomTuple`类型
+    // Specified as `<char, f64>``PhantomTuple` type
     let _tuple2: PhantomTuple<char, f64> = PhantomTuple('Q', PhantomData);
 
-    // 被指定为`<char, f32>`的类型
+    // Type specified as `<char, f32>`
     let _struct1: PhantomStruct<char, f32> = PhantomStruct {
         first: 'q',
         phantom: PhantomData,
     };
-    // 被指定为`<char, f64>`的类型
+    // Type specified as `<char, f64>`
     let _struct2: PhantomStruct<char, f64> = PhantomStruct {
         first: 'q',
         phantom: PhantomData,
     };
 
-    // 编译错误！类型不匹配，所以这些值不能比较
+    // Compilation error! Type mismatch, so these values ​​cannot be compared
     // println!("_tuple1 == _tuple2 yields: {}", _tuple1 == _tuple2);
 }

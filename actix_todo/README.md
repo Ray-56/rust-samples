@@ -1,6 +1,6 @@
 # Actix todolist
 
-第一步使用内存存储数据，完成基本的todolist功能。
+The first step uses in-memory storage to implement the basic todolist features.
 
 ## Web
 

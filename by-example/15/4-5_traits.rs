@@ -1,10 +1,10 @@
-// 带有生命周期标注的结构体
+// Structure with life cycle annotation
 #[derive(Debug)]
 struct Borrowed<'a> {
     x: &'a i32,
 }
 
-// 给 impl 标注声明周期
+// Mark the lifecycle of impl
 impl<'a> Default for Borrowed<'a> {
     fn default() -> Self {
         Self {

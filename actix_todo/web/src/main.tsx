@@ -10,8 +10,8 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <SWRConfig
       value={{
         onError: (error) => {
-          // TODO: 测试是否捕获到 API 的错误
-          // 这里可以添加错误处理逻辑，比如记录错误日志、错误提示等
+          // TODO: Test whether API errors are caught
+          // Here you can add error handling logic, such as recording error logs, error prompts, etc.
           console.error("SWR Error:", error);
         },
       }}

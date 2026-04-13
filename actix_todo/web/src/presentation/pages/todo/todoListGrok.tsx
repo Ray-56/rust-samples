@@ -29,7 +29,7 @@ interface SortableTodoItemProps {
   onDelete: (id: string) => void;
 }
 
-// 可排序的 Todo 项组件
+// Sortable Todo item component
 function SortableTodoItem({ todo, onUpdate, onDelete }: SortableTodoItemProps) {
   const {
     attributes,
@@ -56,7 +56,7 @@ function SortableTodoItem({ todo, onUpdate, onDelete }: SortableTodoItemProps) {
   );
 }
 
-// 单个状态分组列表
+// Single status grouped list
 function StatusList({
   status,
   todos,
@@ -98,7 +98,7 @@ export function TodoList() {
   const { todos, isLoading, error, createTodo, updateTodo, deleteTodo } =
     useTodo();
 
-  // 按状态分组
+  // Group by status
   const pendingTodos = todos.filter(
     (todo) => todo.getStatus().getValue() === "pending"
   );
@@ -109,7 +109,7 @@ export function TodoList() {
     (todo) => todo.getStatus().getValue() === "completed"
   );
 
-  // 配置拖拽传感器
+  // Configure drag sensor
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
@@ -117,7 +117,7 @@ export function TodoList() {
     })
   );
 
-  // 处理拖拽结束
+  // Process drag end
   const handleDragEnd = (event: any) => {
     const { active, over } = event;
 
@@ -129,12 +129,12 @@ export function TodoList() {
     const overStatus = over.data.current?.sortable.containerId;
 
     if (activeId !== overId || activeStatus !== overStatus) {
-      // 找到拖动的 Todo 和目标位置
+      // Find the dragged Todo and target location
       const allTodos = [...todos];
       const activeTodo = allTodos.find((todo) => todo.getId() === activeId);
       if (!activeTodo) return;
 
-      // 计算新位置
+      // Calculate new position
       const targetTodos = allTodos.filter(
         (todo) => todo.getStatus().getValue() === overStatus
       );
@@ -143,14 +143,14 @@ export function TodoList() {
       );
       const newIndex = overIndex >= 0 ? overIndex : targetTodos.length;
 
-      // 更新 status（如果跨状态）
+      // Update status (if across states)
       const updates: { status?: string; position?: number } = {};
       if (activeStatus !== overStatus) {
         updates.status = overStatus;
       }
       updates.position = newIndex;
 
-      // 更新所有受影响的 Todo 的 position
+      // Update the position of all affected Todos
       const reorderedTodos = allTodos.filter(
         (todo) => todo.getId() !== activeId
       );
@@ -165,7 +165,7 @@ export function TodoList() {
         activeTodo
       );
 
-      // 更新 position
+      // update position
       const updatesBatch = reorderedTodos
         .filter((todo) => todo.getStatus().getValue() === overStatus)
         .map((todo, index) => ({
@@ -173,12 +173,12 @@ export function TodoList() {
           position: index,
         }));
 
-      // 如果是跨状态拖拽，先更新 status
+      // If dragging across states, update status first
       if (activeStatus !== overStatus) {
         updateTodo(activeId, updates);
       }
 
-      // 批量更新 position
+      // Batch update position
       updatesBatch.forEach(({ id, position }) => {
         updateTodo(id, { position });
       });
@@ -187,11 +187,11 @@ export function TodoList() {
 
   return (
     <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Todo 列表</h1>
+      <h1 className="text-2xl font-bold mb-4">Todo List</h1>
       <TodoForm onSubmit={createTodo} />
       {error && <Alert variant="destructive">{error}</Alert>}
       {isLoading ? (
-        <p>加载中...</p>
+        <p>Loading...</p>
       ) : (
         <DndContext
           sensors={sensors}

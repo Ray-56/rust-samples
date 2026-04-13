@@ -1,12 +1,12 @@
-use std::fmt::Debug; // 用于约束的 trait
+use std::fmt::Debug; // Traits for constraints
 
 #[derive(Debug)]
 struct Ref<'a, T: 'a>(&'a T);
-// `Ref`包含一个指向泛型类型`T`的引用，其中`T`拥有一个位置的生命周期`'a`
-// `T`拥有生命周期限制，`T`中的任何*引用*都必须比`'a`活的更长
-// 另外`Ref`的生命周期也不能超过`'a`
+// `Ref` contains a reference to a generic type `T`, where `T` has a one-position lifetime `'a`
+// `T` has a lifetime limit, any *reference* in `T` must live longer than `'a`
+// In addition, the life cycle of `Ref` cannot exceed `'a`
 
-// 一个泛型函数，使用`Debug` trait 来打印内容
+// A generic function that uses the `Debug` trait to print content
 fn print<T>(t: T)
 where
     T: Debug,
@@ -14,8 +14,8 @@ where
     println!("`print`: t is {:?}", t);
 }
 
-// 这里接受一个指向`T`的引用，其中`T`实现了`Debug` trait，并且在`T`中的所有 *引用* 都必须比`'a`存活时间更长。
-// 另外`'a`也要比函数活的更长
+// This accepts a reference to `T`, where `T` implements the `Debug` trait, and all *references* in `T` must outlive `'a`.
+// In addition, `'a` also lives longer than the function.
 fn print_ref<'a, T>(t: &'a T)
 where
     T: Debug,

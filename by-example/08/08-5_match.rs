@@ -1,28 +1,28 @@
 fn main() {
     let number = 13;
-    // 试一试 ^ 将不同的值赋给`number`
+    // Try ^ assigning different values ​​to `number`
 
     println!("Tell me about {}", number);
     match number {
-        // 匹配单个值
+        // Match a single value
         1 => println!("One"),
-        // 匹配多个值
+        // Match multiple values
         2 | 3 | 5 | 7 | 11 | 13 => println!("This is a prime"),
-        // 试一试 ^ 将 13 添加到质数列表中
-        // 匹配一个闭区间范围
+        // Try it ^ Add 13 to the list of prime numbers
+        // Matches a closed range
         13..=19 => println!("a teen"),
-        // 处理其他情况、
+        // Handle other situations,
         _ => println!("Ain't special"),
-        // 试一试 ^ 注释掉这个总括性的分支
+        // Try it ^ Comment out this umbrella branch
     }
 
     let boolean = true;
-    // match 也是一个表达式
+    // match is also an expression
     let binary = match boolean {
-        // match 分支必须覆盖所有可能的值
+        // The match branch must cover all possible values
         false => 0,
         true => 1,
-        // 试一试 ^ 将其中一条分支注释掉
+        // Try it ^ Comment out one of the branches
     };
 
     println!("{} -> {}", boolean, binary);

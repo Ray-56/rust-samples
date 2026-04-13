@@ -1,39 +1,39 @@
 fn main() {
     println!("{} days", 31);
 
-    // 不加后缀的话，31 就自动成为了 i32 类型
-    // 你可以添加后缀来改变 31 的类型（例如使用 31i64 声明 31 为 i64 类型）
+    // Without adding a suffix, 31 will automatically become the i32 type.
+    // You can add suffixes to change the type of 31 (e.g. use 31i64 to declare 31 as i64 type)
 
-    // 用变量替换字符串有多种写法
-    // 比如可以使用位置参数
+    // There are many ways to write strings using variables
+    // For example, you can use positional parameters
     println!("{0}, this is {1}. {1}, this is {0}", "Alice", "Bob");
 
-    // 可以使用命名参数
+    // Named parameters can be used
     println!("{subject} {verb} {object}", object="the lazy dog", subject="the quick brown fox", verb="jumps over");
 
-    // 可以在`:`后面指定特殊的格式
+    // Special formats can be specified after `:`
     println!("{} of {:b} people know binary, the other half don't", 1, 2);
 
-    // 你可以按指定宽度来右对齐文本
-    // 下面语句输出 "     1"，5 个空格后面连着 1
+    // You can right align text by a specified width
+    // The following statement outputs "1", 5 spaces followed by 1
     println!("{number:>width$}", number=1, width=6);
 
-    // 你可以在数字左边补 0，下面语句输出 "000001"
+    // You can add 0 to the left of the number, and the following statement will output "000001"
     println!("{number:>0width$}", number=1, width=6);
 
-    // println! 会检查使用到的参数数量是否正确
+    // println! will check whether the number of parameters used is correct
     println!("My name is {0}, {1} {0}", "Bond", "James");
-    // 改正 ^ 补上漏掉的参数："James"
+    // Correction ^ Fill in the missing parameter: "James"
 
-    // 创建一个包含单个`i32`的结构体（structure）。命名为`Structure`
+    // Create a structure containing a single `i32`. Named `Structure`
     #[derive(Debug)]
     struct Structure(i32);
 
-    // 但是像结构体这样的自定义类型需要更复杂的方式来处理
-    // 下面语句无法运行
+    // But custom types like structs require a more complex way to handle
+    // The following statement cannot be run
     println!("This struct `{:?}` won't print...", Structure(3));
-    // 改正 ^ 输出
+    // Correction ^ output
 
-    // 作业部分
+    // Homework section
     println!("Pi is roughly {:.3}", 3.1415926);
 }

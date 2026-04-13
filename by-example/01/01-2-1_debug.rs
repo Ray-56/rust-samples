@@ -1,9 +1,9 @@
-// 推导`Structure`的`fmt::Debug`实现
-// `Structure`是一个包含单个`i32`的结构体
+// Deriving the `fmt::Debug` implementation of `Structure`
+// `Structure` is a structure containing a single `i32`
 #[derive(Debug)]
 struct Structure(i32);
 
-// 将`Structure`放到结构体`Deep`中。然后使`Deep`也能够打印
+// Put `Structure` into the structure `Deep`. Then enable `Deep` to also print
 #[derive(Debug)]
 struct Deep(Structure);
 
@@ -14,7 +14,7 @@ struct Persion<'a> {
 }
 
 fn main() {
-    // 使用`{:?}`打印和使用`{}`类似
+    // Using `{:?}` to print is similar to using `{}`
     println!("{:?} months in a year.", 12);
     println!(
         "{1:?} {0:?} is the {actor:?} name.",
@@ -23,17 +23,17 @@ fn main() {
         actor = "actor's"
     );
 
-    // `Structure`也可以打印
+    // `Structure` can also be printed
     println!("Now {:?} will print!", Structure(3));
 
-    // 使用`derive`的一个问题是不能控制输出的形式
-    // 加入我只想展示一个`7`怎么办
+    // One problem with using `derive` is that you cannot control the form of the output.
+    // What should I do if I just want to show a `7`?
     println!("Now {:?} will print!", Deep(Structure(7)));
 
     let name = "Ray";
     let age = 29;
     let ray = Persion { name, age };
 
-    // 美化打印
+    // Beautify printing
     println!("{:#?}", ray);
 }

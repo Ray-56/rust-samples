@@ -3,58 +3,58 @@ fn main() {
 
     let color = String::from("green");
 
-    // 这个闭包打印`color`。它会立即借用（通过引用，`&`）`color`并将该借用和闭包本身存储到
-    // `print`变量中。`color`会一直保持被借用状态知道`print`离开作用域
+    // This closure prints `color`. It immediately borrows (by reference, `&`) `color` and stores that borrow and the closure itself in
+    // in the `print` variable. `color` will remain borrowed until `print` goes out of scope
     // 
-    // `println!`只需要传引用就能使用，而这个闭包捕获的也是变量的引用，因此无需进一步处理就可以使用`println!`
+    // `println!` only needs to be passed by reference to be used, and this closure also captures the reference of the variable, so `println!` can be used without further processing.
     let print = || println!("`color`: {}", color);
 
-    // 使用借用来调用闭包`color`
+    // Using borrowing to call closure `color`
     print();
 
-    // `color`可再次被不可变借用，因为闭包只持有一个指向`color`的不可变引用
+    // `color` can be immutably borrowed again because the closure only holds an immutable reference to `color`
     let _reborrow = &color;
     print();
 
-    // 在最后使用`print`之后，移动或重新借用都是允许的
+    // Moving or re-borrowing is allowed after the last use of `print`
     let _color_moved = color;
 
     let mut count = 0;
-    // 这个闭包是`count`值增加。要做到这点，它需要得到`&mut count`或者`count`本身
-    // 但`&mut count`要求没那么严格，所以我们采取这种方式。该闭包立即借用`count`
+    // This closure is the `count` value being incremented. To do this, it needs to get `&mut count` or `count` itself
+    // But the requirement of `&mut count` is not so strict, so we adopt this approach. The closure immediately borrows `count`
     // 
-    // `inc`前面需要加上`mut`，因为闭包内存储着一个`&mut`变量。调用闭包时，
-    // 该变量的变化就意味着闭包内部发成了变化。因此闭包需要是可变的
+    // `mut` needs to be added before `inc`, because a `&mut` variable is stored in the closure. When calling a closure,
+    // The change of this variable means that the internal changes of the closure have occurred. So closures need to be mutable
     let mut inc = || {
         count += 1;
         println!("`count`: {}", count);
     };
 
-    // 使用可变借用调用闭包
+    // Calling closures using mutable borrow
     inc();
 
-    // 因为之后调用闭包，所以仍然可变借用`count`
-    // 试图重新借用将导致错误
+    // Because the closure is called later, `count` is still mutably borrowed
+    // Attempting to re-borrow will result in an error
     // let _reborrow = &count;
-    // ^ 试一试：将此行注释去掉
+    // ^ Try it: uncomment this line
     inc();
 
-    // 闭包不在借用`&mut count`，因此可以正确地重新借用
+    // The closure no longer borrows `&mut count` and therefore re-borrows correctly
     let _count_reborrowed = &mut count;
 
-    // 不可复制类型（non-copy type）
+    // non-copy type
     let movable = Box::new(3);
 
-    // `mem::drop`要求`T`类型本身，所以闭包将会捕获变量的值。这种情况下，
-    // 可复制类型将会复制给闭包，从而原始值不受影响。不可复制类型必须移动
-    // （move）到闭包中，因而`movable`变量在这里立即移动到了闭包中。
+    // `mem::drop` requires the `T` type itself, so the closure will capture the value of the variable. In this case,
+    // The copyable type will be copied to the closure so that the original value is not affected. Non-copyable types must be moved
+    // (move) into the closure, so the `movable` variable is immediately moved to the closure here.
     let consume = || {
         println!("`movable`: {:?}", movable);
         mem::drop(movable);
     };
 
-    // `consume`消耗了该变量，所以该闭包只能调用一次
+    // `consume` consumes the variable, so the closure can only be called once
     consume();
     // consume();
-    // ^ 试一试：将此行注释去掉
+    // ^ Try it: uncomment this line
 }

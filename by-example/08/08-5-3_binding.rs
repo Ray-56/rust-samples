@@ -1,4 +1,4 @@
-// `age`函数，返回一个`u32`值
+// The `age` function returns a `u32` value
 fn age() -> u32 {
     15
 }
@@ -8,11 +8,11 @@ fn main() {
 
     match age() {
         0 => println!("I haven't celebrated my first birthday yet"),
-        // 可以直接匹配（`match`） 1 ..= 12，但那样的话孩子会是几岁？
-        // 相反，在 1 ..= 12 分支中绑定匹配值到`n`。现在年龄就可以读取了
+        // One could directly match (`match`) 1..= 12, but then how old would the child be?
+        // Instead, bind the matching value to `n` in the 1..= 12 branch. Age can now be read
         n @ 1 ..= 12 => println!("I'm a child of age {:?}", n),
         n @ 13 ..= 19 => println!("I'm a teen of age {:?}", n),
-        // 不符合上面的范围，返回结果
+        // If it does not meet the above range, the result will be returned.
         n => println!("I'm an old person of age {:?}", n),
     }
 
@@ -22,11 +22,11 @@ fn main() {
     }
 
     match some_number() {
-        // 得到`Some`可变类型，如果它的值（绑定到`n`上）等于 42，则匹配
+        // Get the mutable type `Some`, matching if its value (bound to `n`) is equal to 42
         Some(n @ 42) => println!("The Answer: {}!", n),
-        // 匹配任意其它数字
+        // Match any other number
         Some(n) => println!("Not interesting... {}", n),
-        // 匹配任意其他值（`None`可变类型）
+        // Matches any other value (`None` mutable type)
         _ => (),
     }
 }

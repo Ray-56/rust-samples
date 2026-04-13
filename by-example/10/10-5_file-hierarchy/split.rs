@@ -1,4 +1,4 @@
-// 此声明会查找名为`my.rs`或者`my/mod.rs`的文件，并将该文件的内容放到此作用域中一个名为`my`的模块里面
+// This statement will look for a file named `my.rs` or `my/mod.rs` and place the contents of the file into a module named `my` in this scope
 mod my;
 
 fn function() {
